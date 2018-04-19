@@ -76,7 +76,7 @@ abstract class Plugin
         if (is_null(static::$outputFile)) {
             static::$outputFile = static::proposeOutputFile();
 
-            // Strill null?
+            // Still null?
             if (is_null(static::$outputFile)) {
                 static::$outputFile = static::defaultOutputFile();
             }
