@@ -1,0 +1,36 @@
+#todebug-last-logs {
+    position: fixed;
+    z-index: 12000; /* Is it enough for WordPress? Left sidebar (#adminmenuwrap) has z-index 9990 */
+    top: 32px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+    background-color: #23282D;
+    background-color: rgba(35, 40, 45, 0.75); /* #23282D */
+}
+#todebug-last-logs .inner-wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 1em;
+    background-color: #f1f1f1;
+}
+#todebug-last-logs p,
+#todebug-last-logs pre {
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.4em;
+}
+body.wp-admin #todebug-last-logs p,
+body.wp-admin #todebug-last-logs pre {
+    font-size: 13px;
+}
+#todebug-last-logs hr {
+    margin: 1.75em 0;
+}
