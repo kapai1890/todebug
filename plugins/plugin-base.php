@@ -32,7 +32,7 @@ abstract class Plugin
      */
     public static function writeAs($var, string $type)
     {
-        $message    = StringifyUtil::stringifyAs($var, $type) . PHP_EOL;
+        $message    = static::buildStringAs($var, $type);
         $outputFile = static::outputFile();
 
         static::log($message, $outputFile);
@@ -71,12 +71,18 @@ abstract class Plugin
         return $strings;
     }
 
+    public static function buildStringAs($var, string $type): string
+    {
+        $text = StringifyUtil::stringifyAs($var, $type) . PHP_EOL;
+        return $text;
+    }
+
     public static function outputFile(): string
     {
         if (is_null(static::$outputFile)) {
             static::$outputFile = static::proposeOutputFile();
 
-            // Still null?
+            // Strill null?
             if (is_null(static::$outputFile)) {
                 static::$outputFile = static::defaultOutputFile();
             }
