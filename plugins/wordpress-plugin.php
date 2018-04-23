@@ -199,7 +199,7 @@ final class Todebug extends Plugin
         echo '<p class="description" id="todebug_silent_debugging-description">' . __('Push messages to log file only on AJAX calls; otherwise save messages only for rendering.', 'todebug') . '</p>';
     }
 
-    public function loadScripts($page)
+    public function loadScripts($page = '')
     {
         $pluginUrl = plugin_dir_url(TODEBUG_PLUGIN_FILE);
 
