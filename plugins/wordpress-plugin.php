@@ -52,6 +52,16 @@ final class Todebug extends Plugin
         return $strings;
     }
 
+    public static function buildStringAs($var, string $type): string
+    {
+        $text = parent::buildStringAs($var, $type);
+
+        // Save messages here to also handle functions tostring() and tostrings()
+        static::saveMessage($text);
+
+        return $text;
+    }
+
     /**
      * @return string|null
      */
@@ -209,7 +219,7 @@ final class Todebug extends Plugin
         $wpAdminBar->add_node([
             'id'    => 'todebug',
             'title' => __('Todebug', 'todebug'),
-            'href'  => admin_url('index.php'), // See real usage in assets/wordpress-admin.js
+            'href'  => admin_url('index.php'),
             'meta'  => [
                 'title' => __('Display last logs', 'todebug')
             ]
