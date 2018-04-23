@@ -94,9 +94,11 @@ class StringifyUtil
     {
         $text = number_format($number, 3, '.', '');
 
-        // Remove zeros from the end. But don't use rtrim($text, ".0"), it will
-        // also remove zeros on the left side of decimal point. For example,
-        // "100.000" will become "1" and "0.000" will become ""
+        // Remove zeros from the end. But don't use rtrim($text, ".0") or
+        // rtrim($text, "0") with rtrim($text, "."), it will also remove zeros
+        // on the left side of decimal point. For example, "100.000" will become
+        // "1" and "0.000" will become "" with first variant, and "100" become
+        // "1" with second variant
         return preg_replace('/\.0+$|(\.\d*[1-9])0+$/', '$1', $text);
     }
 
