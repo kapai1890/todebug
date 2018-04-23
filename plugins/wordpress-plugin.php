@@ -219,7 +219,7 @@ final class Todebug extends Plugin
         $wpAdminBar->add_node([
             'id'    => 'todebug',
             'title' => __('Todebug', 'todebug'),
-            'href'  => admin_url('index.php'),
+            'href'  => admin_url('index.php'), // See real usage in assets/wordpress-admin.js
             'meta'  => [
                 'title' => __('Display last logs', 'todebug')
             ]
