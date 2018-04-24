@@ -18,13 +18,17 @@
     padding: 1em;
     background-color: #f1f1f1;
 }
-#todebug-last-logs p {
+#todebug-last-logs p,
+#todebug-last-logs pre {
     border: none;
     margin: 0;
     padding: 0;
-    font-size: 16px;
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 1.4em;
+}
+#todebug-last-logs pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 #todebug-last-logs hr {
     margin: 1.75em 0;
