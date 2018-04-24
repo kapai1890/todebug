@@ -6,6 +6,9 @@ namespace todebug\utils;
 
 class StringifyUtil
 {
+    const INDENT = '    ';
+    const MAX_INLINE_ARRAY_LENGTH = 5;
+
     /**
      * @param mixed $var
      *
@@ -107,28 +110,41 @@ class StringifyUtil
         return '"' . $string . '"';
     }
 
-    public static function stringifyArray(array $array): string
+    public static function stringifyArray(array $array, $indent = self::INDENT): string
     {
         $values = array_map([__CLASS__, 'stringify'], $array);
-        return '[' . implode(', ', $values) . ']';
+
+        if (count($values) <= self::MAX_INLINE_ARRAY_LENGTH) {
+            return '[' . implode(', ', $values) . ']';
+        } else {
+            return '['
+                . PHP_EOL . $indent . implode(',' . PHP_EOL . $indent, $values)
+            . PHP_EOL . ']';
+        }
     }
 
-    public static function stringifyHashmap(array $map): string
+    public static function stringifyHashmap(array $map, $indent = self::INDENT): string
     {
         $values = array_map(function ($key, $value) {
             return static::stringify($key) . ' => ' . static::stringify($value);
         }, array_keys($map), $map);
 
-        return '[' . implode(', ', $values) . ']';
+        if (count($values) <= self::MAX_INLINE_ARRAY_LENGTH) {
+            return '[' . implode(', ', $values) . ']';
+        } else {
+            return '['
+                . PHP_EOL . $indent . implode(',' . PHP_EOL . $indent, $values)
+            . PHP_EOL . ']';
+        }
     }
 
-    public static function stringifyObject($instance): string
+    public static function stringifyObject($instance, $indent = self::INDENT): string
     {
         $class       = new \ReflectionClass($instance);
         $declaration = ($class->isFinal() ? 'final class ' : 'class ') . $class->getName();
-        $constants   = static::stringifyClassConstants($class->getConstants(), '    ');
-        $properties  = static::stringifyClassProperties($class->getProperties(), $instance, '    ');
-        $methods     = static::stringifyClassMethods($class->getMethods(), $instance, '    ');
+        $constants   = static::stringifyClassConstants($class->getConstants(), $indent);
+        $properties  = static::stringifyClassProperties($class->getProperties(), $instance, $indent);
+        $methods     = static::stringifyClassMethods($class->getMethods(), $instance, $indent);
 
         $interfaces = $class->getInterfaceNames();
         if (!empty($interfaces)) {
@@ -271,15 +287,15 @@ class StringifyUtil
 
     /**
      * @param array $constants
-     * @param string $prefix
+     * @param string $indent
      *
      * @return string
      */
-    public static function stringifyClassConstants(array $constants, string $prefix = ''): string
+    public static function stringifyClassConstants(array $constants, string $indent = ''): string
     {
-        array_walk($constants, function (&$value, $name) use ($prefix) {
+        array_walk($constants, function (&$value, $name) use ($indent) {
             $value = static::stringify($value);
-            $value = $prefix . sprintf('const %1$s = %2$s;', $name, $value);
+            $value = $indent . sprintf('const %1$s = %2$s;', $name, $value);
         });
 
         return implode(PHP_EOL, $constants);
@@ -288,16 +304,16 @@ class StringifyUtil
     /**
      * @param \ReflectionProperty[] $properties
      * @param mixed $instance
-     * @param string $prefix
+     * @param string $indent
      *
      * @return string
      */
-    public static function stringifyClassProperties(array $properties, $instance, string $prefix = ''): string
+    public static function stringifyClassProperties(array $properties, $instance, string $indent = ''): string
     {
-        $properties = array_map(function (\ReflectionProperty $property) use ($instance, $prefix) {
+        $properties = array_map(function (\ReflectionProperty $property) use ($instance, $indent) {
             $visibility = static::stringifyVisibility($property);
 
-            $text = $prefix . $visibility . ' $' . $property->getName();
+            $text = $indent . $visibility . ' $' . $property->getName();
 
             // Try to print the value
             $property->setAccessible(true); // For protected and private properties
@@ -322,17 +338,17 @@ class StringifyUtil
     /**
      * @param \ReflectionMethod[] $methods
      * @param mixed $instance
-     * @param string $prefix
+     * @param string $indent
      *
      * @return string
      */
-    public static function stringifyClassMethods(array $methods, $instance, string $prefix = ''): string
+    public static function stringifyClassMethods(array $methods, $instance, string $indent = ''): string
     {
-        $methods = array_map(function (\ReflectionMethod $method) use ($instance, $prefix) {
+        $methods = array_map(function (\ReflectionMethod $method) use ($instance, $indent) {
             $visibility = static::stringifyVisibility($method);
             $params     = static::stringifyParams($method->getClosure($instance));
 
-            return $prefix . $visibility . ' function ' . $method->getName() . '(' . $params . ') { ... }';
+            return $indent . $visibility . ' function ' . $method->getName() . '(' . $params . ') { ... }';
         }, $methods);
 
         return implode(PHP_EOL, $methods);
