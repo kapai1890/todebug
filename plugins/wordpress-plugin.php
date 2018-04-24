@@ -111,7 +111,7 @@ final class Todebug extends Plugin
          * Fires after WordPress has finished loading but before any headers are
          * sent.
          *
-         * @requires WordPress 1.5
+         * @requires WordPress 1.5.0
          *
          * @see https://developer.wordpress.org/reference/hooks/init/
          */
@@ -120,7 +120,7 @@ final class Todebug extends Plugin
         /**
          * Fires as an admin screen or script is being initialized.
          *
-         * @requires WordPress 2.5
+         * @requires WordPress 2.5.0
          *
          * @see https://developer.wordpress.org/reference/hooks/admin_init/
          */
@@ -129,7 +129,7 @@ final class Todebug extends Plugin
         /**
          * Enqueue scripts for all admin pages.
          *
-         * @requires WordPress 2.8
+         * @requires WordPress 2.8.0
          *
          * @see https://developer.wordpress.org/reference/hooks/admin_enqueue_scripts/
          */
@@ -138,7 +138,7 @@ final class Todebug extends Plugin
         /**
          * Fires when scripts and styles are enqueued.
          *
-         * @requires WordPress 2.8
+         * @requires WordPress 2.8.0
          *
          * @see https://developer.wordpress.org/reference/hooks/wp_enqueue_scripts/
          */
@@ -147,20 +147,20 @@ final class Todebug extends Plugin
         /**
          * Load all necessary admin bar items.
          *
-         * @requires WordPress 3.1
+         * @requires WordPress 3.1.0
          *
          * @see https://developer.wordpress.org/reference/hooks/admin_bar_menu/
          */
         add_action('admin_bar_menu', [$this, 'addAdminBarActions'], 100);
 
         /**
-         * Fires before the admin bar is rendered.
+         * Fires just before PHP shuts down execution.
          *
-         * @requires WordPress 3.1
+         * @requires WordPress 1.2.0
          *
-         * @see https://developer.wordpress.org/reference/hooks/wp_before_admin_bar_render/
+         * @see https://developer.wordpress.org/reference/hooks/shutdown/
          */
-        add_action('wp_before_admin_bar_render', [$this, 'renderLogs']);
+        add_action('shutdown', [$this, 'renderLogs']);
     }
 
     public function loadTranslations()
@@ -233,20 +233,19 @@ final class Todebug extends Plugin
         }
 
         $messages = static::$executionMessages;
+        if (empty($messages)) {
+            $messages[] = __('No logs in the current execution.', 'todebug');
+        }
 
         // Render messages of the current execution
         echo '<div id="todebug-last-logs" style="display: none;">';
             echo '<div class="inner-wrapper">';
-                if (empty($messages)) {
-                    echo '<p>' . __('No logs in the current execution.', 'todebug') . '</p>';
-                } else {
-                    foreach ($messages as $message) {
-                        $message = trim($message);
-                        if (empty($message)) {
-                            echo '<hr />';
-                        } else {
-                            echo '<pre>' . esc_html($message) . '</pre>';
-                        }
+                foreach ($messages as $message) {
+                    $message = trim($message);
+                    if (empty($message)) {
+                        echo '<hr />';
+                    } else {
+                        echo '<p>' . esc_html($message) . '</p>';
                     }
                 }
             echo '</div>';
