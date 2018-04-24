@@ -18,18 +18,13 @@
     padding: 1em;
     background-color: #f1f1f1;
 }
-#todebug-last-logs p,
-#todebug-last-logs pre {
+#todebug-last-logs p {
     border: none;
     margin: 0;
     padding: 0;
     font-size: 16px;
     font-size: 1rem;
     line-height: 1.4em;
-}
-body.wp-admin #todebug-last-logs p,
-body.wp-admin #todebug-last-logs pre {
-    font-size: 13px;
 }
 #todebug-last-logs hr {
     margin: 1.75em 0;
