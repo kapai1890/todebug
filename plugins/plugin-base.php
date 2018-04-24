@@ -56,7 +56,20 @@ abstract class Plugin
 
         foreach ($vars as $var) {
             $type = StringifyUtil::getType($var);
-            $texts[] = ($type == 'string') ? trim($var) : StringifyUtil::stringifyAs($var, $type);
+
+            if ($type == 'string') {
+                $trimmed = trim($var);
+
+                // If the string is empty or consist only of spaces - add ""
+                if (empty($var) || empty($trimmed)) {
+                    $texts[] = StringifyUtil::stringifyAs($var, $type);
+                } else {
+                    $texts[] = $trimmed;
+                }
+
+            } else {
+                $texts[] = StringifyUtil::stringifyAs($var, $type);
+            }
         }
 
         $message = implode(' ', $texts) . PHP_EOL;
