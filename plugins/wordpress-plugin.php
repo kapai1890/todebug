@@ -241,8 +241,8 @@ final class Todebug extends Plugin
         echo '<div id="todebug-last-logs" style="display: none;">';
             echo '<div class="inner-wrapper">';
                 foreach ($messages as $message) {
-                    $message = trim($message);
-                    if (empty($message)) {
+                    $message = trim($message); // Replace messages "\n" with "<hr />"
+                    if (empty($message)) {     // Replace messages "\n" with "<hr />"
                         echo '<hr />';
                     } else {
                         echo '<p>' . esc_html($message) . '</p>';
