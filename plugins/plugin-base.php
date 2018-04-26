@@ -80,14 +80,14 @@ abstract class Plugin
     {
         $texts = array_map(['\todebug\utils\StringifyUtil', 'stringify'], $vars);
 
-        $strings = implode(' ', $texts) . PHP_EOL;
-        return $strings;
+        $message = implode(' ', $texts) . PHP_EOL;
+        return $message;
     }
 
     public static function buildStringAs($var, string $type): string
     {
-        $text = StringifyUtil::stringifyAs($var, $type) . PHP_EOL;
-        return $text;
+        $message = StringifyUtil::stringifyAs($var, $type) . PHP_EOL;
+        return $message;
     }
 
     public static function outputFile(): string
