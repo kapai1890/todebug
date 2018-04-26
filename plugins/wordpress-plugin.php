@@ -216,10 +216,12 @@ final class Todebug extends Plugin
             return;
         }
 
+        $page = \todebug\utils\RegexUtil::match('/[^\/]+$/', $_SERVER['REQUEST_URI'], '');
+
         $wpAdminBar->add_node([
             'id'    => 'todebug',
             'title' => __('Todebug', 'todebug'),
-            'href'  => admin_url('index.php'), // See real usage in assets/wordpress-admin.js
+            'href'  => admin_url($page), // See real usage in assets/wordpress-admin.js
             'meta'  => [
                 'title' => __('Display last logs', 'todebug')
             ]
