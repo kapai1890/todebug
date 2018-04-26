@@ -59,7 +59,15 @@ if (!function_exists('tostring')) {
 if (!function_exists('tostrings')) {
     function tostrings(...$vars): string
     {
-        $strings = \todebug\Todebug::buildStrings($vars);
-        return rtrim($strings); // Remove PHP_EOL from the end of file
+        $message = \todebug\Todebug::buildStrings($vars);
+        return rtrim($message); // Remove PHP_EOL from the end of file
+    }
+}
+
+if (!function_exists('tostringx')) {
+    function tostringx($var, string $type): string
+    {
+        $message = \todebug\Todebug::buildStringAs($var, $type);
+        return rtrim($message); // Remove PHP_EOL from the end of file
     }
 }
