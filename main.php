@@ -51,13 +51,15 @@ function todebugx($var, string $type)
 if (!function_exists('tostring')) {
     function tostring(...$vars): string
     {
-        return \todebug\Todebug::buildMessage($vars);
+        $message = \todebug\Todebug::buildMessage($vars);
+        return rtrim($message); // Remove PHP_EOL from the end of file
     }
 }
 
 if (!function_exists('tostrings')) {
     function tostrings(...$vars): string
     {
-        return \todebug\Todebug::buildStrings($vars);
+        $strings = \todebug\Todebug::buildStrings($vars);
+        return rtrim($strings); // Remove PHP_EOL from the end of file
     }
 }
