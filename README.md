@@ -17,9 +17,9 @@ define('TODEBUG_OUTPUT_FILE', '/dev/null');
 
 ## WordPress Plugin
 1. Install (upload) the plugin.
-1.2. For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
-2. _Optional._ Define output file in settings: **Settings > General > Todebug > Output File**. By default - `.../todebug/logs/%Y-m-d%.log`.
-3. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent Debugging**.
+2. _Optional._ For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
+3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output File**. By default - `.../todebug/logs/%Y-m-d%.log`.
+4. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent Debugging**.
 
 # Functions
 There are 6 functions to convert any type of values into the string: **todebug**, **todebugs**, **todebugx** and **tostring**, **tostrings**, **tostringx**.
