@@ -32,4 +32,20 @@ class RegexUtil
             return $values;
         }
     }
+
+    /**
+     * Searches for a value in the subject string by passed pattern.
+     *
+     * @param string $pattern
+     * @param string $subject
+     * @param mixed $default Return value if nothing found.
+     * @param int $index The index of the result group.
+     *
+     * @return mixed The matched or default value.
+     */
+    public static function match(string $pattern, string $subject, $default = '', int $index = 0)
+    {
+        preg_match($pattern, $subject, $matches);
+        return ($matches[$index] ?? $default);
+    }
 }
