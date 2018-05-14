@@ -76,4 +76,9 @@ if (!class_exists('\todebug\Todebug')) {
         \todebug\Todebug::$outputFile = $outputFile;
     }
 
+    function set_todebug_max_inline_array_length(int $length)
+    {
+        \todebug\utils\StringifyUtil::$maxInlineArrayLength = $length;
+    }
+
 }
