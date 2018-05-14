@@ -113,12 +113,17 @@ class StringifyUtil
     public static function stringifyArray(array $array, $indent = self::INDENT): string
     {
         $values = array_map([__CLASS__, 'stringify'], $array);
+        return static::stringifyArrayValues($values, $indent);
+    }
 
+    public static function stringifyArrayValues(array $values, $indent = self::INDENT): string
+    {
         if (count($values) <= self::MAX_INLINE_ARRAY_LENGTH) {
             return '[' . implode(', ', $values) . ']';
         } else {
-            return '['
-                . PHP_EOL . $indent . implode(',' . PHP_EOL . $indent, $values)
+            $values = array_map(['\todebug\utils\StringifyUtil', 'increaseIndent'], $values);
+            return '[' . PHP_EOL
+                . $indent . implode(',' . PHP_EOL . $indent, $values)
             . PHP_EOL . ']';
         }
     }
@@ -129,13 +134,7 @@ class StringifyUtil
             return static::stringify($key) . ' => ' . static::stringify($value);
         }, array_keys($map), $map);
 
-        if (count($values) <= self::MAX_INLINE_ARRAY_LENGTH) {
-            return '[' . implode(', ', $values) . ']';
-        } else {
-            return '['
-                . PHP_EOL . $indent . implode(',' . PHP_EOL . $indent, $values)
-            . PHP_EOL . ']';
-        }
+        return static::stringifyArrayValues($values, $indent);
     }
 
     public static function stringifyObject($instance, $indent = self::INDENT): string
@@ -323,8 +322,12 @@ class StringifyUtil
             if ($type == 'object') {
                 // No infinite recursions
                 $text .= ' = {%Instance of ' . get_class($value) . '%}';
+
             } else if (!is_null($value)) {
-                $text .= ' = ' . static::stringifyAs($value, $type);
+                $stringValue = static::stringifyAs($value, $type);
+                $stringValue = static::increaseIndent($stringValue);
+
+                $text .= ' = ' . $stringValue;
             }
 
             $text .= ';';
@@ -352,5 +355,11 @@ class StringifyUtil
         }, $methods);
 
         return implode(PHP_EOL, $methods);
+    }
+
+    public static function increaseIndent(string $value)
+    {
+        $value = preg_replace('/\n(\s*)/', "\n" . static::INDENT . '$1', $value);
+        return $value;
     }
 }
