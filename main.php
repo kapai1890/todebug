@@ -71,4 +71,9 @@ if (!class_exists('\todebug\Todebug')) {
         }
     }
 
+    function set_todebug_output_file(string $outputFile)
+    {
+        \todebug\Todebug::$outputFile = $outputFile;
+    }
+
 }
