@@ -9,6 +9,8 @@ class StringifyUtil
     const INDENT = '    ';
     const MAX_INLINE_ARRAY_LENGTH = 5;
 
+    private static $forbidObjectsRender = false;
+
     /**
      * @param mixed $var
      *
@@ -139,6 +141,13 @@ class StringifyUtil
 
     public static function stringifyObject($instance, $indent = self::INDENT): string
     {
+        // No infinite recursions
+        if ( static::$forbidObjectsRender ) {
+            return '{%Instance of ' . get_class($instance) . '%}';
+        }
+
+        static::$forbidObjectsRender = true;
+
         $class       = new \ReflectionClass($instance);
         $declaration = ($class->isFinal() ? 'final class ' : 'class ') . $class->getName();
         $constants   = static::stringifyClassConstants($class->getConstants(), $indent);
@@ -166,6 +175,8 @@ class StringifyUtil
         $text .= $beforeProperties . $properties . $afterProperties;
         $text .= $beforeMethods . $methods . $afterMethods;
         $text .= '}';
+
+        static::$forbidObjectsRender = false;
 
         return $text;
     }
@@ -317,17 +328,10 @@ class StringifyUtil
             // Try to print the value
             $property->setAccessible(true); // For protected and private properties
             $value = $property->getValue($instance);
-            $type  = static::getType($value);
-
-            if ($type == 'object') {
-                // No infinite recursions
-                $text .= ' = {%Instance of ' . get_class($value) . '%}';
-
-            } else if (!is_null($value)) {
-                $stringValue = static::stringifyAs($value, $type);
-                $stringValue = static::increaseIndent($stringValue);
-
-                $text .= ' = ' . $stringValue;
+            if (!is_null($value)) {
+                $value = static::stringify($value);
+                $value = static::increaseIndent($value);
+                $text .= ' = ' . $value;
             }
 
             $text .= ';';
