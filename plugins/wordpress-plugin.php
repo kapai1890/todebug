@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace todebug;
 
+use \todebug\utils\StringifyUtil;
+
 if (!defined('ABSPATH')) {
     exit('Use standalone version instead of WordPress plugin.');
 }
@@ -174,9 +176,11 @@ final class Todebug extends Plugin
 
         add_settings_field('todebug_output_file', __('Output File', 'todebug'), [$this, 'renderOutputFileSetting'], 'general', 'todebug_section');
         add_settings_field('todebug_silent_debugging', __('Silent Debugging', 'todebug'), [$this, 'renderSilentDebuggingSetting'], 'general', 'todebug_section');
+        add_settings_field('todebug_max_inline_array_length', __('Max Inline Array Length', 'todebug'), [$this, 'renderMaxInlineArrayLengthSetting'], 'general', 'todebug_section');
 
         register_setting('general', 'todebug_output_file', ['type' => 'string', 'default' => '']);
         register_setting('general', 'todebug_silent_debugging', ['type' => 'boolean', 'default' => false]);
+        register_setting('general', 'todebug_max_inline_array_length', ['type' => 'integer', 'default' => StringifyUtil::DEFAULT_INLINE_ARRAY_LENGTH]);
     }
 
     public function renderOutputFileSetting()
@@ -197,6 +201,15 @@ final class Todebug extends Plugin
             echo __('Enable silent debugging');
         echo '</label>';
         echo '<p class="description" id="todebug_silent_debugging-description">' . __('Push messages to log file only on AJAX calls; otherwise save messages only for rendering.', 'todebug') . '</p>';
+    }
+
+    public function renderMaxInlineArrayLengthSetting()
+    {
+        $maxInlineArrayLength = (int)get_option('todebug_max_inline_array_length', StringifyUtil::DEFAULT_INLINE_ARRAY_LENGTH);
+
+        echo '<input name="todebug_max_inline_array_length" type="number" id="todebug_max_inline_array_length" class="small-text" value="' . esc_attr($maxInlineArrayLength) . '" min="0" step="1" />';
+        echo ' ', __('items', 'Items count', 'todebug');
+        echo '<p class="description" id="todebug_max_inline_array_length-description">' . __('Maximum amount of items that will output in inline format.', 'todebug') . '</p>';
     }
 
     public function loadScripts($page = '')
@@ -289,3 +302,8 @@ final class Todebug extends Plugin
     }
 }
 Todebug::create();
+
+if (StringifyUtil::$maxInlineArrayLength < 0) { // Don't replace the valid value
+    $maxInlineArrayLength = (int)get_option('todebug_max_inline_array_length', StringifyUtil::DEFAULT_INLINE_ARRAY_LENGTH);
+    StringifyUtil::$maxInlineArrayLength = $maxInlineArrayLength;
+}
