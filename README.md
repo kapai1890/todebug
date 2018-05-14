@@ -9,6 +9,7 @@ Debug logger with over 0 million downloads.
 ## Standalone Plugin
 1. Include main file.
 2. _Optional._ Define output file with function **set_todebug_output_file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
+3. _Optional._ Define maximum amount of array items that will output in inline format with function **set_todebug_max_inline_array_length**. By default - 5 items.
 
 ```
 require_once todebug/main.php;
@@ -20,6 +21,7 @@ set_todebug_output_file('/dev/null');
 2. _Optional._ For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
 3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output File**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
 4. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent Debugging**.
+5. _Optional._ Define maximum amount of array items that will output in inline format in settings: **Settings > General > Todebug > Max Inline Array Length**. By default - 5 items.
 
 # Functions
 There are 6 functions to convert any type of values into the string: **todebug**, **todebugs**, **todebugx** and **tostring**, **tostrings**, **tostringx**.
