@@ -7,7 +7,10 @@ namespace todebug\utils;
 class StringifyUtil
 {
     const INDENT = '    ';
-    const MAX_INLINE_ARRAY_LENGTH = 5;
+    const DEFAULT_INLINE_ARRAY_LENGTH = 5;
+
+    public static $maxInlineArrayLength = -1; // Here will be custom value or
+                                              // DEFAULT_INLINE_ARRAY_LENGTH
 
     private static $forbidObjectsRender = false;
 
@@ -120,7 +123,7 @@ class StringifyUtil
 
     public static function stringifyArrayValues(array $values, $indent = self::INDENT): string
     {
-        if (count($values) <= self::MAX_INLINE_ARRAY_LENGTH) {
+        if (count($values) <= static::maxInlineArrayLength()) {
             return '[' . implode(', ', $values) . ']';
         } else {
             $values = array_map(['\todebug\utils\StringifyUtil', 'increaseIndent'], $values);
@@ -365,5 +368,13 @@ class StringifyUtil
     {
         $value = preg_replace('/\n(\s*)/', "\n" . static::INDENT . '$1', $value);
         return $value;
+    }
+
+    public static function maxInlineArrayLength(): int
+    {
+        if ( static::$maxInlineArrayLength < 0 ) {
+            static::$maxInlineArrayLength = static::DEFAULT_INLINE_ARRAY_LENGTH;
+        }
+        return static::$maxInlineArrayLength;
     }
 }
