@@ -8,7 +8,7 @@ use \todebug\utils\StringifyUtil;
 
 abstract class Plugin
 {
-    protected static $outputFile = null;
+    public static $outputFile = null;
 
     public static function write(array $vars)
     {
