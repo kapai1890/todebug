@@ -8,17 +8,17 @@ Debug logger with over 0 million downloads.
 # Installation
 ## Standalone Plugin
 1. Include main file.
-2. _Optional._ Define output file with a constant **TODEBUG_OUTPUT_FILE**. By default - `.../todebug/logs/%Y-m-d%.log`.
+2. _Optional._ Define output file with function **set_todebug_output_file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
 
 ```
 require_once todebug/main.php;
-define('TODEBUG_OUTPUT_FILE', '/dev/null');
+set_todebug_output_file('/dev/null');
 ```
 
 ## WordPress Plugin
 1. Install (upload) the plugin.
 2. _Optional._ For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
-3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output File**. By default - `.../todebug/logs/%Y-m-d%.log`.
+3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output File**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
 4. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent Debugging**.
 
 # Functions
