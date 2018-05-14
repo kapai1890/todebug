@@ -260,6 +260,8 @@ final class Todebug extends Plugin
                         // Replace empty lines with <hr> element
                         echo '<hr />';
                     } else {
+                        // Translate all "&" into "&amp;" before esc_html()
+                        $message = str_replace('&', '&amp;', $message);
                         echo '<pre>' . esc_html($message) . '</pre>';
                     }
                 }
