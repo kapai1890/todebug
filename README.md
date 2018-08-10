@@ -9,7 +9,7 @@ Debug logger with over 0 million downloads.
 ## Standalone Plugin
 1. Include main file.
 2. _Optional._ Define output file with function **set_todebug_output_file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
-3. _Optional._ Define maximum amount of array items that will output in inline format with function **set_todebug_max_inline_array_length**. By default - 5 items.
+3. _Optional._ Define maximum amount of array items that will output in inline format with function **set_todebug_max_inline_array_length**. By default - 3 items.
 
 ```
 require_once todebug/main.php;
@@ -19,9 +19,10 @@ set_todebug_output_file('/dev/null');
 ## WordPress Plugin
 1. Install (upload) the plugin.
 2. _Optional._ For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
-3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output File**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
-4. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent Debugging**.
-5. _Optional._ Define maximum amount of array items that will output in inline format in settings: **Settings > General > Todebug > Max Inline Array Length**. By default - 5 items.
+3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
+4. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent debugging**. Disabled by default.
+5. _Optional._ If required, enable option **Skip AJAX logs** (don't push any message to log file on AJAX calls): **Settings > General > Todebug > Skip AJAX logs**. Disabled by default.
+6. _Optional._ Define maximum amount of array items that will output in inline format in settings: **Settings > General > Todebug > Max inline array length**. By default - 3 items.
 
 # Functions
 There are 6 functions to convert any type of values into the string: **todebug**, **todebugs**, **todebugx** and **tostring**, **tostrings**, **tostringx**.
@@ -56,6 +57,18 @@ $ todebugx('count', 'function');
 4. **tostring(...$vars)** - similar to _todebug()_, but will only build and return the message (without pushing it to the log file).
 5. **tostrings(...$vars)** - similar to _todebugs()_ and _tostring()_ (strings with quotes, will not push the message to the log file).
 6. **tostringx($var, string $type)** - similar to _todebugx()_ and _tostring()_ (output with a defined type, will not push the message to the log file).
+
+## Other Functions
+1. todebug_set_output_file(string $outputFile)
+2. todebug_set_max_inline_array_length(int $length)
+
+## More Functions for WordPress
+1. todebug_enable_silent_debugging()
+2. todebug_disable_silent_debugging()
+3. todebug_reset_silent_debugging()
+4. todebug_enable_skip_ajax_logs()
+5. todebug_disable_skip_ajax_logs()
+6. todebug_reset_skip_ajax_logs()
 
 # Examples
 * **Boolean**: `true`, `false`
