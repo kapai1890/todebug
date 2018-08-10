@@ -83,19 +83,19 @@ if (!class_exists('\todebug\Todebug')) {
     }
 
     if ($isWordpress) {
-        function enable_silent_todebug()
+        function todebug_enable_silent_debugging()
         {
             remove_filter('todebug_silent_debugging', '__return_false');
             add_filter('todebug_silent_debugging', '__return_true');
         }
 
-        function disable_silent_todebug()
+        function todebug_disable_silent_debugging()
         {
             remove_filter('todebug_silent_debugging', '__return_true');
             add_filter('todebug_silent_debugging', '__return_false');
         }
 
-        function reset_silent_todebug()
+        function todebug_reset_silent_debugging()
         {
             remove_filter('todebug_silent_debugging', '__return_true');
             remove_filter('todebug_silent_debugging', '__return_false');
