@@ -27,11 +27,21 @@ final class Todebug extends Plugin
     protected static function log(string $message, string $outputFile)
     {
         $isAjax = (defined('DOING_AJAX') && DOING_AJAX);
+
         $isSilentDebugging = (bool)get_option('todebug_silent_debugging', false);
         $isSilentDebugging = apply_filters('todebug_silent_debugging', $isSilentDebugging);
 
-        if ($isAjax || !$isSilentDebugging) {
-            parent::log($message, $outputFile);
+        $isSkipAjaxLogs = (bool)get_option('todebug_skip_ajax_logs', false);
+        $isSkipAjaxLogs = apply_filters('todebug_skip_ajax_logs', $isSkipAjaxLogs);
+
+        if (!$isAjax) {
+            if (!$isSilentDebugging) {
+                parent::log($message, $outputFile);
+            }
+        } else {
+            if (!$isSkipAjaxLogs) {
+                parent::log($message, $outputFile);
+            }
         }
     }
 
@@ -177,10 +187,12 @@ final class Todebug extends Plugin
 
         add_settings_field('todebug_output_file', __('Output File', 'todebug'), [$this, 'renderOutputFileSetting'], 'general', 'todebug_section');
         add_settings_field('todebug_silent_debugging', __('Silent Debugging', 'todebug'), [$this, 'renderSilentDebuggingSetting'], 'general', 'todebug_section');
+        add_settings_field('todebug_skip_ajax_logs', __('Skip AJAX logs', 'todebug'), [$this, 'renderSkipAjaxLogsSetting'], 'general', 'todebug_section');
         add_settings_field('todebug_max_inline_array_length', __('Max Inline Array Length', 'todebug'), [$this, 'renderMaxInlineArrayLengthSetting'], 'general', 'todebug_section');
 
         register_setting('general', 'todebug_output_file', ['type' => 'string', 'default' => '']);
         register_setting('general', 'todebug_silent_debugging', ['type' => 'boolean', 'default' => false]);
+        register_setting('general', 'todebug_skip_ajax_logs', ['type' => 'boolean', 'default' => false]);
         register_setting('general', 'todebug_max_inline_array_length', ['type' => 'integer', 'default' => StringifyUtil::DEFAULT_INLINE_ARRAY_LENGTH]);
     }
 
@@ -202,6 +214,17 @@ final class Todebug extends Plugin
             echo __('Enable silent debugging');
         echo '</label>';
         echo '<p class="description" id="todebug_silent_debugging-description">' . __('Push messages to log file only on AJAX calls; otherwise save messages only for rendering.', 'todebug') . '</p>';
+    }
+
+    public function renderSkipAjaxLogsSetting()
+    {
+        $isSkipAjaxLogs = (bool)get_option('todebug_skip_ajax_logs', false);
+
+        echo '<label>';
+            echo '<input name="todebug_skip_ajax_logs" type="checkbox" id="todebug_skip_ajax_logs" value="1" ' . checked($isSkipAjaxLogs, true, false) . ' />';
+            echo __('Skip AJAX logs');
+        echo '</label>';
+        echo '<p class="description" id="todebug_skip_ajax_logs-description">' . __("Don't push any message to log file on AJAX calls. (Also skips log messages on silent debugging)", 'todebug') . '</p>';
     }
 
     public function renderMaxInlineArrayLengthSetting()
