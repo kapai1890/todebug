@@ -185,10 +185,10 @@ final class Todebug extends Plugin
     {
         add_settings_section('todebug_section', __('Todebug', 'todebug'), function () {}, 'general');
 
-        add_settings_field('todebug_output_file', __('Output File', 'todebug'), [$this, 'renderOutputFileSetting'], 'general', 'todebug_section');
-        add_settings_field('todebug_silent_debugging', __('Silent Debugging', 'todebug'), [$this, 'renderSilentDebuggingSetting'], 'general', 'todebug_section');
+        add_settings_field('todebug_output_file', __('Output file', 'todebug'), [$this, 'renderOutputFileSetting'], 'general', 'todebug_section');
+        add_settings_field('todebug_silent_debugging', __('Silent debugging', 'todebug'), [$this, 'renderSilentDebuggingSetting'], 'general', 'todebug_section');
         add_settings_field('todebug_skip_ajax_logs', __('Skip AJAX logs', 'todebug'), [$this, 'renderSkipAjaxLogsSetting'], 'general', 'todebug_section');
-        add_settings_field('todebug_max_inline_array_length', __('Max Inline Array Length', 'todebug'), [$this, 'renderMaxInlineArrayLengthSetting'], 'general', 'todebug_section');
+        add_settings_field('todebug_max_inline_array_length', __('Max inline array length', 'todebug'), [$this, 'renderMaxInlineArrayLengthSetting'], 'general', 'todebug_section');
 
         register_setting('general', 'todebug_output_file', ['type' => 'string', 'default' => '']);
         register_setting('general', 'todebug_silent_debugging', ['type' => 'boolean', 'default' => false]);
