@@ -100,6 +100,24 @@ if (!class_exists('\todebug\Todebug')) {
             remove_filter('todebug_silent_debugging', '__return_true');
             remove_filter('todebug_silent_debugging', '__return_false');
         }
+
+        function todebug_enable_skip_ajax_logs()
+        {
+            remove_filter('todebug_skip_ajax_logs', '__return_false');
+            add_filter('todebug_skip_ajax_logs', '__return_true');
+        }
+
+        function todebug_disable_skip_ajax_logs()
+        {
+            remove_filter('todebug_skip_ajax_logs', '__return_true');
+            add_filter('todebug_skip_ajax_logs', '__return_false');
+        }
+
+        function todebug_reset_skip_ajax_logs()
+        {
+            remove_filter('todebug_skip_ajax_logs', '__return_true');
+            remove_filter('todebug_skip_ajax_logs', '__return_false');
+        }
     }
 
 } // if not class exists \todebug\Todebug
