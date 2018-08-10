@@ -28,6 +28,7 @@ final class Todebug extends Plugin
     {
         $isAjax = (defined('DOING_AJAX') && DOING_AJAX);
         $isSilentDebugging = (bool)get_option('todebug_silent_debugging', false);
+        $isSilentDebugging = apply_filters('todebug_silent_debugging', $isSilentDebugging);
 
         if ($isAjax || !$isSilentDebugging) {
             parent::log($message, $outputFile);
