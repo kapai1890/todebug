@@ -149,6 +149,8 @@ class StringifyUtil
             return '{%Instance of ' . get_class($instance) . '%}';
         }
 
+        // Temporarily forbid objects render to prevent excessive nesting and
+        // infinite loops
         static::$forbidObjectsRender = true;
 
         $class       = new \ReflectionClass($instance);
@@ -179,6 +181,7 @@ class StringifyUtil
         $text .= $beforeMethods . $methods . $afterMethods;
         $text .= '}';
 
+        // Restore the old value
         static::$forbidObjectsRender = false;
 
         return $text;
