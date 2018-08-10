@@ -7,7 +7,7 @@ namespace todebug\utils;
 class StringifyUtil
 {
     const INDENT = '    ';
-    const DEFAULT_INLINE_ARRAY_LENGTH = 5;
+    const DEFAULT_INLINE_ARRAY_LENGTH = 3;
 
     public static $maxInlineArrayLength = -1; // Here will be custom value or
                                               // DEFAULT_INLINE_ARRAY_LENGTH
