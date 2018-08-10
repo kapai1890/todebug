@@ -13,7 +13,8 @@ if (!class_exists('\todebug\Todebug')) {
 
     require_once 'plugins/plugin-base.php';
 
-    if (defined('ABSPATH') && defined('TODEBUG_PLUGIN_FILE')) {
+    $isWordpress = (defined('ABSPATH') && defined('TODEBUG_PLUGIN_FILE'));
+    if ($isWordpress) {
         require_once 'plugins/wordpress-plugin.php';
     } else {
         require_once 'plugins/standalone-plugin.php';
@@ -57,7 +58,7 @@ if (!class_exists('\todebug\Todebug')) {
 
     if (!function_exists('tostrings')) {
         function tostrings(...$vars): string
-        {
+        {    
             $message = \todebug\Todebug::buildStrings($vars);
             return rtrim($message); // Remove PHP_EOL from the end of file
         }
@@ -71,14 +72,34 @@ if (!class_exists('\todebug\Todebug')) {
         }
     }
 
-    function set_todebug_output_file(string $outputFile)
+    function todebug_set_output_file(string $outputFile)
     {
         \todebug\Todebug::$outputFile = $outputFile;
     }
 
-    function set_todebug_max_inline_array_length(int $length)
+    function todebug_set_max_inline_array_length(int $length)
     {
         \todebug\utils\StringifyUtil::$maxInlineArrayLength = $length;
     }
 
-}
+    if ($isWordpress) {
+        function enable_silent_todebug()
+        {
+            remove_filter('todebug_silent_debugging', '__return_false');
+            add_filter('todebug_silent_debugging', '__return_true');
+        }
+
+        function disable_silent_todebug()
+        {
+            remove_filter('todebug_silent_debugging', '__return_true');
+            add_filter('todebug_silent_debugging', '__return_false');
+        }
+
+        function reset_silent_todebug()
+        {
+            remove_filter('todebug_silent_debugging', '__return_true');
+            remove_filter('todebug_silent_debugging', '__return_false');
+        }
+    }
+
+} // if not class exists \todebug\Todebug
