@@ -173,7 +173,7 @@ final class Todebug extends Plugin
          *
          * @see https://developer.wordpress.org/reference/hooks/shutdown/
          */
-        add_action('shutdown', [$this, 'renderLogs']);
+        add_action('shutdown', [$this, 'renderLogs'], 999);
     }
 
     public function loadTranslations()
