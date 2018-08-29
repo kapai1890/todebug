@@ -259,11 +259,24 @@ final class Todebug extends Plugin
                         // Replace empty lines with <hr> element
                         echo '<hr />';
                     } else {
-                        // Translate all "&" into "&amp;" before esc_html()
-                        $message = str_replace('&', '&amp;', $message);
-                        echo '<pre>' . esc_html($message) . '</pre>';
-                    }
-                }
+                        // Handle PHP_EOL elements of the message as horizontal line
+                        $parts = explode(' "' . PHP_EOL . '" ', $message);
+
+                        for ($i = 0, $lastIndex = count($parts) - 1; $i <= $lastIndex; $i++) {
+                            $part = $parts[$i];
+                            // Ensure new line character in the end of string
+                            $part = rtrim($part, PHP_EOL) . PHP_EOL;
+                            // Translate all "&" into "&amp;" before esc_html()
+                            $part = str_replace('&', '&amp;', $part);
+                            echo '<pre>' . esc_html($part) . '</pre>';
+                            // Add horizontal line between message parts
+                            if ($i != $lastIndex) {
+                                echo '<hr />';
+                            }
+                        }
+
+                    } // If not horizontal line
+                } // For each message
             echo '</div>';
         echo '</div>';
     }
