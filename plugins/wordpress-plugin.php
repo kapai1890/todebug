@@ -26,6 +26,11 @@ final class Todebug extends Plugin
 
     protected static function log(string $message, string $outputFile)
     {
+        // Save messages here to not handle the functions tostring(),
+        // tostrings() and tostringx() and don't push their messages to
+        // execution log
+        static::saveMessage($message);
+
         $isAjax = (defined('DOING_AJAX') && DOING_AJAX);
 
         $isSilentDebugging = (bool)get_option('todebug_silent_debugging', false);
@@ -43,36 +48,6 @@ final class Todebug extends Plugin
                 parent::log($message, $outputFile);
             }
         }
-    }
-
-    public static function buildMessage(array $vars): string
-    {
-        $message = parent::buildMessage($vars);
-
-        // Save messages here to also handle functions tostring() and tostrings()
-        static::saveMessage($message);
-
-        return $message;
-    }
-
-    public static function buildStrings(array $vars): string
-    {
-        $strings = parent::buildStrings($vars);
-
-        // Save messages here to also handle functions tostring() and tostrings()
-        static::saveMessage($strings);
-
-        return $strings;
-    }
-
-    public static function buildStringAs($var, string $type): string
-    {
-        $text = parent::buildStringAs($var, $type);
-
-        // Save messages here to also handle functions tostring() and tostrings()
-        static::saveMessage($text);
-
-        return $text;
     }
 
     /**
