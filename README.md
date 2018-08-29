@@ -59,16 +59,16 @@ $ todebugx('count', 'function');
 6. **tostringx($var, string $type)** - similar to _todebugx()_ and _tostring()_ (output with a defined type, will not push the message to the log file).
 
 ## Other Functions
-1. todebug_set_output_file(string $outputFile)
-2. todebug_set_max_inline_array_length(int $length)
+1. todebug_output_file(string $outputFile) - set the output file.
+2. todebug_array_length(int $length) - set the maximum length of the array, which will be perceived as "inline".
 
 ## More Functions for WordPress
-1. todebug_enable_silent_debugging()
-2. todebug_disable_silent_debugging()
-3. todebug_reset_silent_debugging()
-4. todebug_enable_skip_ajax_logs()
-5. todebug_disable_skip_ajax_logs()
-6. todebug_reset_skip_ajax_logs()
+1. todebug_enable_silent_debug()
+2. todebug_disable_silent_debug()
+3. todebug_reset_silent_debug()
+4. todebug_enable_ajax_logs()
+5. todebug_disable_ajax_logs()
+6. todebug_reset_ajax_logs()
 
 # Examples
 * **Boolean**: `true`, `false`
