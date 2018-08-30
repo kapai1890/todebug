@@ -83,38 +83,22 @@ if (!class_exists('\todebug\Todebug')) {
     }
 
     if ($isWordpress) {
-        function todebug_enable_silent_debug()
+        function todebug_log_to_file()
         {
-            remove_filter('todebug_silent_debugging', '__return_false');
-            add_filter('todebug_silent_debugging', '__return_true');
-        }
-
-        function todebug_disable_silent_debug()
-        {
-            remove_filter('todebug_silent_debugging', '__return_true');
             add_filter('todebug_silent_debugging', '__return_false');
-        }
-
-        function todebug_reset_silent_debug()
-        {
-            remove_filter('todebug_silent_debugging', '__return_true');
-            remove_filter('todebug_silent_debugging', '__return_false');
-        }
-
-        function todebug_enable_ajax_logs()
-        {
-            remove_filter('todebug_skip_ajax_logs', '__return_true');
             add_filter('todebug_skip_ajax_logs', '__return_false');
         }
 
-        function todebug_disable_ajax_logs()
+        function todebug_dont_log_to_file()
         {
-            remove_filter('todebug_skip_ajax_logs', '__return_false');
+            add_filter('todebug_silent_debugging', '__return_true');
             add_filter('todebug_skip_ajax_logs', '__return_true');
         }
 
-        function todebug_reset_ajax_logs()
+        function todebug_reset_options()
         {
+            remove_filter('todebug_silent_debugging', '__return_true');
+            remove_filter('todebug_silent_debugging', '__return_false');
             remove_filter('todebug_skip_ajax_logs', '__return_true');
             remove_filter('todebug_skip_ajax_logs', '__return_false');
         }

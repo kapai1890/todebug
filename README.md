@@ -63,12 +63,9 @@ $ todebugx('count', 'function');
 2. todebug_array_length(int $length) - set the maximum length of the array, which will be perceived as "inline".
 
 ## More Functions for WordPress
-1. todebug_enable_silent_debug()
-2. todebug_disable_silent_debug()
-3. todebug_reset_silent_debug()
-4. todebug_enable_ajax_logs()
-5. todebug_disable_ajax_logs()
-6. todebug_reset_ajax_logs()
+1. todebug_log_to_file() - ignore settings and force the plugin **to write** debug messages into a log file.
+2. todebug_dont_log_to_file() - ignore settings and force the plugin **not to write** debug messages into a log file.
+3. todebug_reset_options() - stop ignoring settings.
 
 # Examples
 * **Boolean**: `true`, `false`
