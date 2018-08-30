@@ -33,7 +33,7 @@ final class Todebug extends Plugin
 
         $isAjax = (defined('DOING_AJAX') && DOING_AJAX);
 
-        $isSilentDebugging = (bool)get_option('todebug_silent_debugging', false);
+        $isSilentDebugging = (bool)get_option('todebug_silent_debugging', true);
         $isSilentDebugging = apply_filters('todebug_silent_debugging', $isSilentDebugging);
 
         $isSkipAjaxLogs = (bool)get_option('todebug_skip_ajax_logs', false);
@@ -166,7 +166,7 @@ final class Todebug extends Plugin
         add_settings_field('todebug_max_inline_array_length', __('Max inline array length', 'todebug'), [$this, 'renderMaxInlineArrayLengthSetting'], 'general', 'todebug_section');
 
         register_setting('general', 'todebug_output_file', ['type' => 'string', 'default' => '']);
-        register_setting('general', 'todebug_silent_debugging', ['type' => 'boolean', 'default' => false]);
+        register_setting('general', 'todebug_silent_debugging', ['type' => 'boolean', 'default' => true]);
         register_setting('general', 'todebug_skip_ajax_logs', ['type' => 'boolean', 'default' => false]);
         register_setting('general', 'todebug_max_inline_array_length', ['type' => 'integer', 'default' => StringifyUtil::DEFAULT_INLINE_ARRAY_LENGTH]);
     }
@@ -182,7 +182,7 @@ final class Todebug extends Plugin
 
     public function renderSilentDebuggingSetting()
     {
-        $isSilentDebugging = (bool)get_option('todebug_silent_debugging', false);
+        $isSilentDebugging = (bool)get_option('todebug_silent_debugging', true);
 
         echo '<label>';
             echo '<input name="todebug_silent_debugging" type="checkbox" id="todebug_silent_debugging" value="1" ' . checked($isSilentDebugging, true, false) . ' />';

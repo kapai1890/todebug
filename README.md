@@ -20,7 +20,7 @@ set_todebug_output_file('/dev/null');
 1. Install (upload) the plugin.
 2. _Optional._ For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
 3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
-4. _Optional._ Enable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent debugging**. Disabled by default.
+4. _Optional._ Leave enabled or disable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent debugging**. Enabled by default.
 5. _Optional._ If required, enable option **Skip AJAX logs** (don't push any message to log file on AJAX calls): **Settings > General > Todebug > Skip AJAX logs**. Disabled by default.
 6. _Optional._ Define maximum amount of array items that will output in inline format in settings: **Settings > General > Todebug > Max inline array length**. By default - 3 items.
 
