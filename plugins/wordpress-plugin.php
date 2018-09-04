@@ -24,6 +24,11 @@ final class Todebug extends Plugin
         static::$executionMessages[] = $message;
     }
 
+    public static function clearMessages()
+    {
+        static::$executionMessages = [];
+    }
+
     protected static function log(string $message, string $outputFile)
     {
         // Save messages here to not handle the functions tostring(),

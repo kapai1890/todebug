@@ -38,7 +38,7 @@ abstract class Plugin
         static::log($message, $outputFile);
     }
 
-    public static function clear()
+    public static function clearFile()
     {
         $outputFile = $this->outputFile();
         file_put_contents($outputFile, '');

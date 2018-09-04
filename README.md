@@ -61,11 +61,13 @@ $ todebugx('count', 'function');
 ## Other Functions
 1. todebug_output_file(string $outputFile) - set the output file.
 2. todebug_array_length(int $length) - set the maximum length of the array, which will be perceived as "inline".
+3. todebug_clear_file()
 
 ## More Functions for WordPress
 1. todebug_log_to_file() - ignore settings and force the plugin **to write** debug messages into a log file.
 2. todebug_dont_log_to_file() - ignore settings and force the plugin **not to write** debug messages into a log file.
 3. todebug_reset_options() - stop ignoring settings.
+4. todebug_clear_execution() - clear "execution log".
 
 # Examples
 * **Boolean**: `true`, `false`

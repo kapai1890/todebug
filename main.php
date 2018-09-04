@@ -82,6 +82,11 @@ if (!class_exists('\todebug\Todebug')) {
         \todebug\utils\StringifyUtil::$maxInlineArrayLength = $length;
     }
 
+    function todebug_clear_file()
+    {
+        \todebug\Todebug::clearFile();
+    }
+
     if ($isWordpress) {
         function todebug_log_to_file()
         {
@@ -101,6 +106,11 @@ if (!class_exists('\todebug\Todebug')) {
             remove_filter('todebug_silent_debugging', '__return_false');
             remove_filter('todebug_skip_ajax_logs', '__return_true');
             remove_filter('todebug_skip_ajax_logs', '__return_false');
+        }
+
+        function todebug_clear_execution()
+        {
+            \todebug\Todebug::clearMessages();
         }
     }
 
