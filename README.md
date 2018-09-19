@@ -8,26 +8,23 @@ Debug logger with over 0 million downloads.
 # Installation
 ## Standalone Plugin
 1. Include main file.
-2. _Optional._ Define output file with function **set_todebug_output_file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
-3. _Optional._ Define maximum amount of array items that will output in inline format with function **set_todebug_max_inline_array_length**. By default - 3 items.
+2. _Optional._ Define output file with function **todebug_file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
 
 ```
 require_once todebug/main.php;
-set_todebug_output_file('/dev/null');
+todebug_file('/dev/null');
 ```
 
 ## WordPress Plugin
 1. Install (upload) the plugin.
 2. _Optional._ For must-use plugin, copy file **mu-plugins/todebug/todebug-mu.php** into the folder **mu-plugins/**.
 3. _Optional._ Define output file in settings: **Settings > General > Todebug > Output file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
-4. _Optional._ Leave enabled or disable **silent debugging** (render messages in **execution log** _(see below)_, but push them to log file only on AJAX calls): **Settings > General > Todebug > Silent debugging**. Enabled by default.
-5. _Optional._ If required, enable option **Skip AJAX logs** (don't push any message to log file on AJAX calls): **Settings > General > Todebug > Skip AJAX logs**. Disabled by default.
-6. _Optional._ Define maximum amount of array items that will output in inline format in settings: **Settings > General > Todebug > Max inline array length**. By default - 3 items.
+4. _Optional._ Leave enabled or disable settings **Silent debugging** and **Skip AJAX logs**.
 
 # Functions
-There are 6 functions to convert any type of values into the string: **todebug**, **todebugs**, **todebugx** and **tostring**, **tostrings**, **tostringx**.
+There are 6 functions to convert any type of values into the string: **todebug**, **todebugs**, **todebugx** and **tostring**, **tostrings**, **tostringx**. (All functions return the result message)
 
-1. **todebug(...$vars)** - logs the message into the log file; outputs strings without quotes `""` _(but nested strings - arrays, object fields etc. - is always wrapped with quotes)_.
+1. **todebug(...$vars)** - logs the message into the log file; outputs strings without quotes `""` _(but nested strings - in arrays, values of the object fields etc. - is always wrapped with quotes)_.
 ```
 $ todebug('Offset:', 3);
 > Offset: 3
@@ -35,6 +32,7 @@ $ todebug('Offset:', 3);
 $ todebug(['offset' => 3]);
 > ["offset" => 3]
 ```
+
 2. **todebugs(...$vars)** - _strict_ version of _todebug()_; similar to _todebug()_, but **always** outputs strings with quotes `""`.
 ```
 $ todebugs('Hello world');
@@ -43,6 +41,7 @@ $ todebugs('Hello world');
 $ todebugs('Offset:', 3);
 > "Offset:" 3
 ```
+
 3. **todebugx($var, string $type)** - outputs the variable with a defined type.
 ```
 $ todebug('count');
@@ -54,33 +53,32 @@ $ todebugs('count');
 $ todebugx('count', 'function');
 > function count($array_or_countable[, $mode]) { ... }
 ```
+
 4. **tostring(...$vars)** - similar to _todebug()_, but will only build and return the message (without pushing it to the log file).
 5. **tostrings(...$vars)** - similar to _todebugs()_ and _tostring()_ (strings with quotes, will not push the message to the log file).
 6. **tostringx($var, string $type)** - similar to _todebugx()_ and _tostring()_ (output with a defined type, will not push the message to the log file).
 
 ## Other Functions
-1. todebug_output_file(string $outputFile) - set the output file.
-2. todebug_array_length(int $length) - set the maximum length of the array, which will be perceived as "inline".
-3. todebug_clear_file()
+1. todebug_file(string $outputFile) - set the output file.
+2. todebug_clear() - clear the output file. WordPress variant has an optional argument to make it possible to clear only execution logs and don't change the file.
 
 ## More Functions for WordPress
-1. todebug_log_to_file() - ignore settings and force the plugin **to write** debug messages into a log file.
-2. todebug_dont_log_to_file() - ignore settings and force the plugin **not to write** debug messages into a log file.
-3. todebug_reset_options() - stop ignoring settings.
-4. todebug_clear_execution() - clear "execution log".
+1. enable_todebug_logs() - ignore settings and force the plugin **to write** debug messages into a log file.
+2. disable_todebug_logs() - ignore settings and force the plugin **not to write** debug messages into a log file.
+3. reset_todebug_settings() - stop ignoring settings.
 
 # Examples
 * **Boolean**: `true`, `false`
 * **Integer**: `57`
-* **Float**: `0.18`, `3.142`
+* **Float**: `0.18`, `3.14159`
 * **String**: `"Hello"`
 * **Indexed array**: `[1, 2, 3]`
 * **Associative array**: `[0 => 5, "a" => true]`
-* **Date** _(\DateTime object)_: `{19 April, 2018 (2018-04-19)}`
-* **Function**: `function todebug([$vars]) { ... }`
-* **Method**: `just\HidePlugins::filterPluginActions($actions, $plugin) { ... }`
 * **Closure**: `function ($r, $g, $b[, $a]) { ... }`
+* **Function**: `function todebug([$vars]) { ... }`
+* **Callback**: `just\HidePlugins::filterPluginActions($actions, $plugin) { ... }`
 * **Null**: `null`
+* **Date** _(\DateTime object)_: `{19 April, 2018 (2018-04-19)}`
 * **Object**:
 ```
 final class todebug\Todebug

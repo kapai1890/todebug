@@ -2,116 +2,142 @@
 
 declare(strict_types = 1);
 
-// Do not try to redeclare existing functions and classes
-if (!class_exists('\todebug\Todebug')) {
+// Don't try to redeclare existing functions and classes
+if (!class_exists('\todebug\Logger')) {
 
-    define('TODEBUG_ROOT', __DIR__);
+    global $todebug;
 
-    require_once 'utils/array-util.php';
-    require_once 'utils/regex-util.php';
-    require_once 'utils/stringify-util.php';
+    $isWordpress = defined('ABSPATH');
+    $todebug = ($isWordpress) ? \todebug\WordPressLogger::class : \todebug\Logger::class;
 
-    require_once 'plugins/plugin-base.php';
+    require 'includes/functions.php';
+    require 'includes/Reflection.php';
+    require 'includes/Stringify.php';
 
-    $isWordpress = (defined('ABSPATH') && defined('TODEBUG_PLUGIN_FILE'));
+    require 'includes/Logger.php';
+
     if ($isWordpress) {
-        require_once 'plugins/wordpress-plugin.php';
+        require 'includes/WordPressLogger.php';
+
+        // Create an instance of the plugin
+        \todebug\WordPressLogger::create();
+    }
+
+    function todebug_file(string $outputFile) {
+        global $todebug;
+        $todebug::$outputFile = $outputFile;
+    }
+
+    if ($isWordpress) {
+        function todebug_clear($clearFile = true) {
+            global $todebug;
+
+            $todebug::clearExecutionLogs();
+
+            if ($clearFile) {
+                $todebug::clearFile();
+            }
+        }
+
+        function enable_todebug_logs() {
+            add_filter('silent_todebug', '__return_false');
+            add_filter('todebug_noajax', '__return_false');
+        }
+
+        function disable_todebug_logs() {
+            add_filter('silent_todebug', '__return_true');
+            add_filter('todebug_noajax', '__return_true');
+        }
+
+        function reset_todebug_settings() {
+            remove_filter('silent_todebug', '__return_true');
+            remove_filter('silent_todebug', '__return_false');
+            remove_filter('todebug_noajax', '__return_true');
+            remove_filter('todebug_noajax', '__return_false');
+        }
     } else {
-        require_once 'plugins/standalone-plugin.php';
+        function todebug_clear() {
+            global $todebug;
+            $todebug::clearFile();
+        }
     }
 
     /**
-     * Write debug message: output strings as is and use space " " as a separator
-     * between message parts.
+     * Write debug message: output strings as is and use space " " as a
+     * separator between message parts.
+     *
+     * @param mixed $vars
+     * @return string
+     *
+     * @global \todebug\Logger|\todebug\WordPressLogger $todebug
      */
-    function todebug(...$vars)
-    {
-        \todebug\Todebug::write($vars);
+    function todebug(...$vars): string {
+        global $todebug;
+        return $todebug::write($vars);
     }
 
     /**
      * Translate all types of variables, including string type.
+     *
+     * @param mixed $vars
+     * @return string
+     *
+     * @global \todebug\Logger|\todebug\WordPressLogger $todebug
      */
-    function todebugs(...$vars)
-    {
-        \todebug\Todebug::writeStrict($vars);
+    function todebugs(...$vars): string {
+        global $todebug;
+        return $todebug::writeStrict($vars);
+    }
+
+    /**
+     * @param mixed $var
+     * @param string $type
+     * @return string
+     *
+     * @global \todebug\Logger|\todebug\WordPressLogger $todebug
+     */
+    function todebugx($var, string $type): string {
+        global $todebug;
+        return $todebug::writeAs($var, $type);
+    }
+
+    /**
+     * @param mixed $vars
+     * @return string
+     *
+     * @global \todebug\Logger|\todebug\WordPressLogger $todebug
+     */
+    function tostring(...$vars): string {
+        global $todebug;
+
+        $message = $todebug::buildMessage($vars);
+        return rtrim($message); // Remove PHP_EOL from the end of file
+    }
+
+    /**
+     * @param mixed $vars
+     * @return string
+     *
+     * @global \todebug\Logger|\todebug\WordPressLogger $todebug
+     */
+    function tostrings(...$vars): string {
+        global $todebug;
+
+        $message = $todebug::buildStrict($vars);
+        return rtrim($message); // Remove PHP_EOL from the end of file
     }
 
     /**
      * @param mixed $var
      * @param string $type
      *
-     * @example todebugAs("count", "function");
+     * @global \todebug\Logger|\todebug\WordPressLogger $todebug
      */
-    function todebugx($var, string $type)
-    {
-        \todebug\Todebug::writeAs($var, $type);
+    function tostringx($var, string $type): string {
+        global $todebug;
+
+        $message = $todebug::buildMessageAs($var, $type);
+        return rtrim($message); // Remove PHP_EOL from the end of file
     }
 
-    if (!function_exists('tostring')) {
-        function tostring(...$vars): string
-        {
-            $message = \todebug\Todebug::buildMessage($vars);
-            return rtrim($message); // Remove PHP_EOL from the end of file
-        }
-    }
-
-    if (!function_exists('tostrings')) {
-        function tostrings(...$vars): string
-        {    
-            $message = \todebug\Todebug::buildStrings($vars);
-            return rtrim($message); // Remove PHP_EOL from the end of file
-        }
-    }
-
-    if (!function_exists('tostringx')) {
-        function tostringx($var, string $type): string
-        {
-            $message = \todebug\Todebug::buildStringAs($var, $type);
-            return rtrim($message); // Remove PHP_EOL from the end of file
-        }
-    }
-
-    function todebug_output_file(string $outputFile)
-    {
-        \todebug\Todebug::$outputFile = $outputFile;
-    }
-
-    function todebug_array_length(int $length)
-    {
-        \todebug\utils\StringifyUtil::$maxInlineArrayLength = $length;
-    }
-
-    function todebug_clear_file()
-    {
-        \todebug\Todebug::clearFile();
-    }
-
-    if ($isWordpress) {
-        function todebug_log_to_file()
-        {
-            add_filter('todebug_silent_debugging', '__return_false');
-            add_filter('todebug_skip_ajax_logs', '__return_false');
-        }
-
-        function todebug_dont_log_to_file()
-        {
-            add_filter('todebug_silent_debugging', '__return_true');
-            add_filter('todebug_skip_ajax_logs', '__return_true');
-        }
-
-        function todebug_reset_options()
-        {
-            remove_filter('todebug_silent_debugging', '__return_true');
-            remove_filter('todebug_silent_debugging', '__return_false');
-            remove_filter('todebug_skip_ajax_logs', '__return_true');
-            remove_filter('todebug_skip_ajax_logs', '__return_false');
-        }
-
-        function todebug_clear_execution()
-        {
-            \todebug\Todebug::clearMessages();
-        }
-    }
-
-} // if not class exists \todebug\Todebug
+} // If class Logger not exists

@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
     "use strict";
 
-    var $logs = jQuery('#todebug-last-logs');
+    var $logs = jQuery('#todebug-execution-logs');
 
     // Show/hide logs
     jQuery('#wp-admin-bar-todebug a').on('click', function (event) {

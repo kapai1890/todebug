@@ -1,4 +1,4 @@
-#todebug-last-logs {
+#todebug-execution-logs {
     position: fixed;
     z-index: 12000; /* Is it enough for WordPress? Left sidebar (#adminmenuwrap) has z-index 9990 */
     top: 32px;
@@ -12,24 +12,24 @@
     background-color: #23282D;
     background-color: rgba(35, 40, 45, 0.75); /* #23282D */
 }
-#todebug-last-logs .inner-wrapper {
+#todebug-execution-logs .inner-wrapper {
     width: 100%;
     margin: 0;
     padding: 1em;
     background-color: #f1f1f1;
 }
-#todebug-last-logs p,
-#todebug-last-logs pre {
+#todebug-execution-logs p,
+#todebug-execution-logs pre {
     border: none;
     margin: 0;
     padding: 0;
     font-size: 14px;
     line-height: 1.4em;
 }
-#todebug-last-logs pre {
+#todebug-execution-logs pre {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-#todebug-last-logs hr {
+#todebug-execution-logs hr {
     margin: 1.75em 0;
 }
