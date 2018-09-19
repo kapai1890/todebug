@@ -25,7 +25,7 @@ class WordPressLogger extends Logger
     /** @var bool */
     protected $haveAdminBar = false;
 
-    public static function saveMassage(string $message)
+    public static function saveMessage(string $message)
     {
         static::$executionMessages[] = $message;
     }
