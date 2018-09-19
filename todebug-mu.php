@@ -9,7 +9,6 @@
  * Author URI: https://github.com/kapai1890
  * License: MIT
  * Text Domain: todebug
- * Domain Path: /languages
  */
 
 /*
