@@ -59,7 +59,7 @@ class Stringify
             case 'array':
                 if (is_callable($var)) {
                     // $var = [%Object or class%, %Method name%]
-                    $type = 'method';
+                    $type = 'callback';
                 } else if (!is_0ton_array($var)) {
                     $type = 'hashmap';
                 }
