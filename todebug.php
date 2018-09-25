@@ -4,7 +4,7 @@
  * Plugin Name: Todebug
  * Plugin URI: https://github.com/kapai1890/todebug
  * Description: Debug logger with over 0 million downloads.
- * Version: 1.5.23
+ * Version: 1.5.24
  * Author: kapai1890
  * Author URI: https://github.com/kapai1890
  * License: MIT
