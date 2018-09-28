@@ -1,6 +1,6 @@
 #todebug-execution-logs {
     position: fixed;
-    z-index: 12000; /* Is it enough for WordPress? Left sidebar (#adminmenuwrap) has z-index 9990 */
+    z-index: 65600; /* Is it enough for WordPress? .mce-notification-error has z-index 65534 */
     top: 32px;
     bottom: 0;
     left: 0;
