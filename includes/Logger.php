@@ -57,7 +57,7 @@ class Logger
         foreach ($vars as $var) {
             $type = Stringify::getType($var);
 
-            if ($type == 'string') {
+            if ($type == 'string' && !is_numeric($var)) {
                 $trimmed = trim($var);
 
                 // If the string is empty or consist only of spaces - add ""
