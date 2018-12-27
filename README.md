@@ -63,9 +63,9 @@ $ todebugx('count', 'function');
 2. todebug_clear() - clear the output file. WordPress variant has an optional argument to make it possible to clear only execution logs and don't change the file.
 
 ## More Functions for WordPress
-1. enable_todebug_logs() - ignore settings and force the plugin **to write** debug messages into a log file.
-2. disable_todebug_logs() - ignore settings and force the plugin **not to write** debug messages into a log file.
-3. reset_todebug_settings() - stop ignoring settings.
+1. log_todebugs() - ignore settings and force the plugin **to write** debug messages into a log file.
+2. skip_todebugs() - ignore settings and force the plugin **not to write** debug messages into a log file.
+3. reset_todebugs() - stop ignoring settings.
 
 # Examples
 * **Boolean**: `true`, `false`

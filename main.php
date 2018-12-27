@@ -39,17 +39,17 @@ if (!class_exists('\todebug\Logger')) {
             }
         }
 
-        function enable_todebug_logs() {
+        function log_todebugs() {
             add_filter('silent_todebug', '__return_false');
             add_filter('todebug_noajax', '__return_false');
         }
 
-        function disable_todebug_logs() {
+        function skip_todebugs() {
             add_filter('silent_todebug', '__return_true');
             add_filter('todebug_noajax', '__return_true');
         }
 
-        function reset_todebug_settings() {
+        function reset_todebugs() {
             remove_filter('silent_todebug', '__return_true');
             remove_filter('silent_todebug', '__return_false');
             remove_filter('todebug_noajax', '__return_true');
