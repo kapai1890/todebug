@@ -10,7 +10,7 @@ Debug logger with over 0 million downloads.
 1. Include main file.
 2. _Optional._ Define output file with function **todebug_file**. Output file by default - `.../todebug/logs/%Y-m-d%.log`.
 
-```
+```php
 require_once todebug/main.php;
 todebug_file('/dev/null');
 ```
@@ -25,7 +25,7 @@ todebug_file('/dev/null');
 There are 6 functions to convert any type of values into the string: **todebug**, **todebugs**, **todebugx** and **tostring**, **tostrings**, **tostringx**. (All functions return the result message)
 
 1. **todebug(...$vars)** - logs the message into the log file; outputs strings without quotes `""` _(but nested strings - in arrays, values of the object fields etc. - is always wrapped with quotes)_.
-```
+```php
 $ todebug('Offset:', 3);
 > Offset: 3
 
@@ -34,7 +34,7 @@ $ todebug(['offset' => 3]);
 ```
 
 2. **todebugs(...$vars)** - _strict_ version of _todebug()_; similar to _todebug()_, but **always** outputs strings with quotes `""`.
-```
+```php
 $ todebugs('Hello world');
 > "Hello world"
 
@@ -43,7 +43,7 @@ $ todebugs('Offset:', 3);
 ```
 
 3. **todebugx($var, string $type)** - outputs the variable with a defined type.
-```
+```php
 $ todebug('count');
 > count
 
@@ -80,7 +80,7 @@ $ todebugx('count', 'function');
 * **Null**: `null`
 * **Date** _(\DateTime object)_: `{19 April, 2018 (2018-04-19)}`
 * **Object**:
-```
+```php
 final class todebug\Todebug
 {
     private static $executionMessages = [];
