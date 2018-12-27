@@ -428,7 +428,7 @@ class Stringify
 
     public static function stringifyDate(\DateTime $date): string
     {
-        return $date->format('{j F, Y (Y-m-d)}'); // {31 December, 2017 (2017-12-31)}
+        return $date->format('{j F, Y (H:i:s)}'); // {31 December, 2017 (18:32:59)}
     }
 
     protected static function increaseIndent(): string
