@@ -264,7 +264,13 @@ class WordPressLogger extends Logger
                             $part = rtrim($part, PHP_EOL) . PHP_EOL;
                             // Translate all "&" into "&amp;" before esc_html()
                             $part = str_replace('&', '&amp;', $part);
-                            echo '<pre>' . esc_html($part) . '</pre>';
+                            $part = esc_html($part);
+                            // Prevent convertion of entities like &#8230; (…) -
+                            // show the code instead of character
+                            $part = preg_replace('/&(#[0-9]+;)/', '&amp;$1', $part);
+
+                            echo '<pre>' . $part . '</pre>';
+
                             // Add horizontal line between message parts
                             if ($i != $lastIndex) {
                                 echo '<hr />';
