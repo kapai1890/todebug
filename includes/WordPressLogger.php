@@ -264,7 +264,13 @@ class WordPressLogger extends Logger
                             $part = rtrim($part, PHP_EOL) . PHP_EOL;
                             // Translate all "&" into "&amp;" before esc_html()
                             $part = str_replace('&', '&amp;', $part);
-                            $part = esc_html($part);
+                            $escaped = esc_html($part);
+                            // esc_html() will return an empty string if found
+                            // partly trimmed multibyte character
+                            if (!empty($escaped)) {
+                                $part = $escaped;
+                                // Otherwise show "as is", but at least something
+                            }
                             // Prevent convertion of entities like &#8230; (…) -
                             // show the code instead of character
                             $part = preg_replace('/&(#[0-9]+;)/', '&amp;$1', $part);
