@@ -98,5 +98,5 @@ class Exception implements Throwable
 The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 # Credits
-* ToStr, <https://github.com/biliavskyi.yevhen/tostr>, MIT License.
-* WordPress Settings Fields, <https://github.com/biliavskyi.yevhen/wp-settings-fields>, MIT License.
+* **ToStr**, <https://github.com/biliavskyi.yevhen/tostr>, Copyright (c) 2019 Biliavskyi Yevhen, MIT License.
+* **WordPress Settings Fields**, <https://github.com/biliavskyi.yevhen/wp-settings-fields>, Copyright (c) 2019 Biliavskyi Yevhen, MIT License.
