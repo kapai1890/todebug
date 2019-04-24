@@ -31,7 +31,7 @@ class LogsPrinter
      */
     public function pushMessage($message)
     {
-        $this->loggedMessages = $message;
+        $this->loggedMessages[] = $message;
     }
 
     public function clear()
@@ -59,7 +59,7 @@ class LogsPrinter
         if (!empty($this->loggedMessages)) {
             $messages = $this->loggedMessages;
         } else {
-            $messages[] = __('No logs in the current execution.', 'todebug');
+            $messages = [__('No logs in the current execution.', 'todebug')];
         }
 
         $render = '';
