@@ -46,6 +46,11 @@ class LogsPrinter
             return;
         }
 
+        // Don't display logs on AJAX and cron requests
+        if (wp_doing_ajax() || wp_doing_cron()) {
+            return;
+        }
+
         // Render messages of the current execution
         echo '<div id="todebug-logs" style="display: none;">';
             echo '<div class="inner-wrapper">';
