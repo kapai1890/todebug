@@ -4,11 +4,23 @@ namespace WordPress\Settings;
 
 abstract class MultioptionField extends SettingsField
 {
-    protected function getDefaults()
+    protected function getDefaultArgs()
     {
-        return array_merge(parent::getDefaults(), [
+        return array_merge(parent::getDefaultArgs(), [
             'options' => [] // [value => label]
         ]);
+    }
+
+    public function sanitizeValue($value)
+    {
+        $value = parent::sanitizeValue($value);
+        $options = $this->args['options'];
+
+        if (!array_key_exists($value, $options)) {
+            $value = $this->getDefaultValue();
+        }
+
+        return $value;
     }
 
     /**
@@ -25,7 +37,7 @@ abstract class MultioptionField extends SettingsField
         }
 
         if (!array_key_exists($checked, $options)) {
-            $checked = $this->default;
+            $checked = $this->getDefaultValue();
         }
 
         if (!array_key_exists($checked, $options)) {
@@ -34,17 +46,5 @@ abstract class MultioptionField extends SettingsField
         }
 
         return $checked;
-    }
-
-    public function sanitizeValue($value)
-    {
-        $value = parent::sanitizeValue($value);
-        $options = $this->args['options'];
-
-        if (!array_key_exists($value, $options)) {
-            $value = $this->default;
-        }
-
-        return $value;
     }
 }

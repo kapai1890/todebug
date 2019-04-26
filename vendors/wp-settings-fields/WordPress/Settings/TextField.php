@@ -4,9 +4,9 @@ namespace WordPress\Settings;
 
 class TextField extends SettingsField
 {
-    protected function getDefaults()
+    protected function getDefaultArgs()
     {
-        return array_merge(parent::getDefaults(), [
+        return array_merge(parent::getDefaultArgs(), [
             'size'        => 'regular', // tiny|small|regular|large or empty string
             'placeholder' => ''
         ]);

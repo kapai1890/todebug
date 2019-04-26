@@ -151,24 +151,16 @@ class Plugin
         return [
             'todebug' => [
                 0 => __('Todebug', 'todebug'),
-                'todebug_general_logs_enabled' => [
-                    'type'        => 'boolean',
-                    'default'     => false,
+                'todebug_enabled_requests' => [
+                    'type'        => 'string',
+                    'default'     => '',
                     'title'       => esc_html__('Enabled Requests', 'todebug'),
-                    'input_type'  => 'checkbox',
-                    'label'       => esc_html__('Log general requests', 'todebug')
-                ],
-                'todebug_ajax_logs_enabled' => [
-                    'type'        => 'boolean',
-                    'default'     => false,
-                    'input_type'  => 'checkbox',
-                    'label'       => esc_html__('Log AJAX requests', 'todebug')
-                ],
-                'todebug_cron_logs_enabled' => [
-                    'type'        => 'boolean',
-                    'default'     => false,
-                    'input_type'  => 'checkbox',
-                    'label'       => esc_html__('Log cron requests', 'todebug')
+                    'input_type'  => 'multicheck',
+                    'values'      => [
+                        'general'   => esc_html__('Log general requests', 'todebug'),
+                        'ajax'      => esc_html__('Log AJAX requests', 'todebug'),
+                        'cron'      => esc_html__('Log cron requests', 'todebug')
+                    ]
                 ],
                 'todebug_preferred_output' => [
                     'type'        => 'string',
@@ -183,7 +175,7 @@ class Plugin
                 'todebug_custom_file' => [
                     'type'        => 'string',
                     'default'     => '',
-                    'title'       => esc_html__('Custom Log', 'todebug'),
+                    'title'       => esc_html__('Custom File', 'todebug'),
                     'input_type'  => 'text',
                     'placeholder' => $this->settings->getDefaultFile(),
                     'size'        => 'large'

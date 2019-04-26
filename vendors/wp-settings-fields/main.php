@@ -22,4 +22,6 @@ if (!class_exists('WordPress\Settings\SettingsField')) {
     require __DIR__ . '/WordPress/Settings/MultioptionField.php';
     require __DIR__ . '/WordPress/Settings/SelectField.php';
     require __DIR__ . '/WordPress/Settings/RadioField.php';
+    require __DIR__ . '/WordPress/Settings/MultivalueField.php';
+    require __DIR__ . '/WordPress/Settings/MulticheckField.php';
 }

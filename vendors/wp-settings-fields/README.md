@@ -78,7 +78,7 @@ SettingsRegistry::registerSettings(
                                            // Plain text or HTML (already escaped)
                 "sanitize_callback" => SettingsField::sanitizeValue(),
                 "show_in_rest"      => false,
-                "default"           => "",
+                "default"           => "", // Can be array in MulticheckField
 
                 // Additional arguments for SettingsField and SettingsRegistry
                 "title"             => "Title text on the left side of the page",
@@ -104,7 +104,11 @@ SettingsRegistry::registerSettings(
                 "options"           => [%value% => %label%],
 
                 // RadioField
-                "options"           => [%value% => %label%]
+                "options"           => [%value% => %label%],
+
+                // MulticheckField
+                "values"            => [%value% => %label%],
+                "separator"         => "," // Values separator in wp_options
             ],
 
             "%field name #2%" => ...

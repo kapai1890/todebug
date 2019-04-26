@@ -23,14 +23,14 @@ abstract class SettingsField
     {
         $this->name  = $name;
         $this->title = $title;
-        $this->args  = array_merge($this->getDefaults(), $args);
+        $this->args  = array_merge($this->getDefaultArgs(), $args);
 
         $this->type        = $this->args['type'];
         $this->description = $this->args['description'];
         $this->default     = $this->args['default'];
     }
 
-    protected function getDefaults()
+    protected function getDefaultArgs()
     {
         return [
             'type'              => 'string', // boolean|number|integer|string
@@ -40,26 +40,6 @@ abstract class SettingsField
             'show_in_rest'      => false,
             'class'             => ''
         ];
-    }
-
-    /**
-     * @return bool|int|float|string
-     */
-    public function getValue()
-    {
-        $value = get_option($this->name, null);
-
-        if (is_null($value) || ($value === '' && $this->type != 'string')) {
-            $value = $this->default;
-        } else {
-            switch ($this->type) {
-                case 'boolean': $value = boolval($value);  break;
-                case 'number':  $value = floatval($value); break;
-                case 'integer': $value = intval($value);   break;
-            }
-        }
-
-        return $value;
     }
 
     /**
@@ -108,6 +88,21 @@ abstract class SettingsField
         }
     }
 
+    public function sanitizeType($value)
+    {
+        switch ($this->type) {
+            case 'boolean':
+                return boolval($value); break;
+            case 'number':
+                return floatval($value); break;
+            case 'integer':
+                return intval($value); break;
+            case 'string':
+            default:
+                return "{$value}"; break;
+        }
+    }
+
     public function sanitizeValue($value)
     {
         if ($value === '') {
@@ -122,14 +117,14 @@ abstract class SettingsField
             case 'number':
                 $value = filter_var($value, FILTER_VALIDATE_FLOAT);
                 if ($value === false) {
-                    $value = $this->default;
+                    $value = '';
                 }
                 break;
 
             case 'integer':
                 $value = filter_var($value, FILTER_VALIDATE_INT);
                 if ($value === false) {
-                    $value = $this->default;
+                    $value = '';
                 }
                 break;
 
@@ -140,6 +135,27 @@ abstract class SettingsField
         }
 
         return $value;
+    }
+
+    /**
+     * @return mixed bool|int|float|string, also array in MultivalueField.
+     */
+    public function getValue()
+    {
+        $value = get_option($this->name, null);
+
+        if (is_null($value) || ($value === '' && $this->type != 'string')) {
+            $value = $this->default;
+        } else {
+            $value = $this->sanitizeType($value);
+        }
+
+        return $value;
+    }
+
+    public function getDefaultValue()
+    {
+        return $this->default;
     }
 
     /**

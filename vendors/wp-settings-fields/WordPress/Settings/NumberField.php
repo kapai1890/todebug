@@ -4,9 +4,9 @@ namespace WordPress\Settings;
 
 class NumberField extends SettingsField
 {
-    protected function getDefaults()
+    protected function getDefaultArgs()
     {
-        return array_merge(parent::getDefaults(), [
+        return array_merge(parent::getDefaultArgs(), [
             'size'  => 'small', // tiny|small|regular|large or empty string
             'label' => '',
             'min'   => '',
@@ -45,6 +45,10 @@ class NumberField extends SettingsField
     public function sanitizeValue($value)
     {
         $value = parent::sanitizeValue($value);
+
+        if ($value === '') {
+            $value = $this->getDefaultValue();
+        }
 
         if ($this->type == 'number' || $this->type == 'integer') {
             $min = $this->args['min'];

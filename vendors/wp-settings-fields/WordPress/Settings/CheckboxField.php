@@ -4,9 +4,9 @@ namespace WordPress\Settings;
 
 class CheckboxField extends SettingsField
 {
-    protected function getDefaults()
+    protected function getDefaultArgs()
     {
-        return array_merge(parent::getDefaults(), [
+        return array_merge(parent::getDefaultArgs(), [
             'label' => ''
         ]);
     }

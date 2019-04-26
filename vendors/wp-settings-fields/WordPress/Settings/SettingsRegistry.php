@@ -30,7 +30,7 @@ class SettingsRegistry
                 $inputType = 'text';
 
                 if (isset($args['input_type'])) {
-                    $allowedInputTypes = array('text', 'number', 'checkbox', 'select', 'radio');
+                    $allowedInputTypes = array('text', 'number', 'checkbox', 'select', 'radio', 'multicheck');
                     $allowedInputTypes = apply_filters('settings_fields_input_types', $allowedInputTypes);
 
                     if (in_array($args['input_type'], $allowedInputTypes)) {
