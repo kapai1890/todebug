@@ -98,11 +98,16 @@ class Plugin
     /**
      * @param mixed[] $vars
      * @param string $type
+     * @param int $maxDepth Optional. -1 by default (use value from settings).
      * @return string The result of conversion.
      */
-    public function logAs($var, $type)
+    public function logAs($var, $type, $maxDepth = -1)
     {
-        $message = $this->messageBuilder->buildAs($var, $type, $this->settings->getMaxDepth());
+        if ($maxDepth < 1) {
+            $maxDepth = $this->settings->getMaxDepth();
+        }
+
+        $message = $this->messageBuilder->buildAs($var, $type, $maxDepth);
         $message .= PHP_EOL;
 
         $this->saveMessage($message);

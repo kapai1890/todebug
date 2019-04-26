@@ -33,11 +33,12 @@ function todebugs(...$vars)
  *
  * @param mixed $var
  * @param string $type
+ * @param int $maxDepth Optional. -1 by default (use value from settings).
  * @return string
  *
  * @global \todebug\Plugin $todebug
  */
-function todebugx($var, $type) {
+function todebugx($var, $type, $maxDepth = -1) {
     global $todebug;
-    return $todebug->logAs($var, $type);
+    return $todebug->logAs($var, $type, $maxDepth);
 }
