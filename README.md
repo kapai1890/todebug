@@ -66,7 +66,7 @@ $ todebugx('count', 'function');
 * **Null**: `null`.
 * **As is**: `I'm a string without quotes :P`.
 * **Closure**: `function ($r, $g, $b[, $a]) { ... }`.
-* **Function**: `function todebugx($var, $type) { ... }`.
+* **Function**: `function todebugx($var, $type[, $maxDepth]) { ... }`.
 * **Callback**: `Exception::getMessage() { ... }`.
 * **Object**:
 ```php
