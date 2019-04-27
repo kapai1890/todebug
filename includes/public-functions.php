@@ -33,12 +33,28 @@ function todebugs(...$vars)
  *
  * @param mixed $var
  * @param string $type
- * @param int $maxDepth Optional. -1 by default (use value from settings).
+ * @param int $maxDepth Optional. "auto" by default (use value from settings).
  * @return string
  *
  * @global \todebug\Plugin $todebug
  */
-function todebugx($var, $type, $maxDepth = -1) {
+function todebugx($var, $type, $maxDepth = 'auto')
+{
     global $todebug;
     return $todebug->logAs($var, $type, $maxDepth);
+}
+
+/**
+ * Build message, allowing to convert the maximum amount of nested objects.
+ *
+ * @param mixed $var Any object.
+ * @param int $maxDepth Optional. "auto" by default (use value from settings).
+ * @return string
+ *
+ * @global \todebug\Plugin $todebug
+ */
+function todebugu($var, $maxDepth = 'auto')
+{
+    global $todebug;
+    return $todebug->logObjectsHierarchy($var, $maxDepth);
 }

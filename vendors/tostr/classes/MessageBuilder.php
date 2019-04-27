@@ -31,7 +31,7 @@ class MessageBuilder
 
         foreach ($vars as $var) {
             $type = typeof($var);
-            $strings[] = $this->buildString($var, $type, 1, $maxDepth);
+            $strings[] = $this->varToString($var, $type, 1, $maxDepth);
         }
 
         $message = implode(' ', $strings) . PHP_EOL;
@@ -47,7 +47,7 @@ class MessageBuilder
      */
     public function buildAs($var, $type, $maxDepth)
     {
-        return $this->buildString($var, $type, 1, $maxDepth);
+        return $this->varToString($var, $type, 1, $maxDepth);
     }
 
     /**
@@ -55,21 +55,22 @@ class MessageBuilder
      * @param string $type
      * @param int $depth
      * @param int $maxDepth
+     * @param string[] $parents Stringified classes on upper layers.
      * @return string
      */
-    protected function buildString($var, $type, $depth, $maxDepth)
+    protected function varToString($var, $type, $depth, $maxDepth, $parents = [])
     {
         if ($depth < $maxDepth) {
             if ($type == 'array') {
-                return $this->buildArrayString($var, $depth, $maxDepth);
+                return $this->arrayToString($var, $depth, $maxDepth, $parents);
             } else if ($type == 'iterable') {
-                return $this->buildIterableString($var, $depth, $maxDepth);
+                return $this->iterableToString($var, $depth, $maxDepth, $parents);
             } else if ($type == 'object') {
-                return $this->buildObjectString($var, $depth, $maxDepth);
+                return $this->objectToString($var, $depth, $maxDepth, $parents);
             }
         }
 
-        // Max depth or type not is array|iterable|object
+        // Max depth or type is not array|iterable|object
         return $this->stringifier->stringifyAs($var, $type);
     }
 
@@ -79,15 +80,17 @@ class MessageBuilder
      * @param array $values
      * @param int $depth
      * @param int $maxDepth
+     * @param string[] $parents Pass information about parent classes to next layers.
      * @return string
      */
-    protected function buildArrayString(array $values, $depth, $maxDepth) {
+    protected function arrayToString(array $values, $depth, $maxDepth, $parents)
+    {
         $strings   = [];
         $isHashmap = !is_numeric_natural_array($values);
 
         foreach ($values as $index => $value) {
             $type   = typeof($value);
-            $string = $this->buildString($value, $type, $depth + 1, $maxDepth);
+            $string = $this->varToString($value, $type, $depth + 1, $maxDepth, $parents);
 
             if ($isHashmap) {
                 // Also stringify key/index
@@ -108,20 +111,91 @@ class MessageBuilder
      * @param mixed $values
      * @param int $depth
      * @param int $maxDepth
+     * @param string[] $parents Pass information about parent classes to next layers.
      * @return string
      */
-    protected function buildIterableString($values, $depth, $maxDepth)
+    protected function iterableToString($values, $depth, $maxDepth, $parents)
     {
         $strings = [];
 
         foreach ($values as $value) {
             $type = typeof($value);
-            $strings[] = $this->buildString($value, $type, $depth + 1, $maxDepth);
+            $strings[] = $this->varToString($value, $type, $depth + 1, $maxDepth, $parents);
         }
 
         $result = $this->concatenateStrings($strings);
 
         return '{' . $results . '}';
+    }
+
+    /**
+     * Build object string with all its constants, properties and methods.
+     *
+     * @param mixed $object
+     * @param int $depth
+     * @param int $maxDepth
+     * @param string[] $parents Stringified classes on upper layers.
+     * @return string
+     */
+    protected function objectToString($object, $depth, $maxDepth, $parents)
+    {
+        $currentClass = get_class($object);
+
+        if ($this->canGoDeeper($currentClass, $depth, $maxDepth, $parents)) {
+            // Convert object to string with all it's fields and methods
+            $reflection = $this->reflector->reflectObject($object);
+
+            // Update parents before converting the children
+            $parents[] = $currentClass;
+
+            if ($depth <= ($maxDepth - 2)) {
+                // If we have 2+ more levels, then stringify the values of the
+                // constants and properties properly
+                $this->childrenToString($reflection['constants'], $depth, $maxDepth, $parents);
+                $this->childrenToString($reflection['properties'], $depth, $maxDepth, $parents);
+            }
+
+            return $this->stringifier->stringifyRefobject($reflection);
+        } else {
+            return $this->stringifier->stringifyAs($object, 'object');
+        }
+    }
+
+    /**
+     * Convert nested arrays/iterable objects/objects.
+     *
+     * @param array $children
+     * @param int $depth
+     * @param int $maxDepth
+     * @param string[] $parents Stringified classes on upper layers.
+     */
+    protected function childrenToString(&$children, $depth, $maxDepth, $parents)
+    {
+        foreach ($children as &$child) {
+            $type = typeof($child['value']);
+
+            if (in_array($type, ['array', 'iterable', 'object'])) {
+                $stringValue = $this->varToString($child['value'], $type, $depth + 1, $maxDepth, $parents);
+                $stringValue = $this->increaseIndent($stringValue);
+
+                $child['value'] = new AsIs($stringValue);
+            }
+        }
+
+        unset($child);
+    }
+
+    /**
+     * @param string $currentClass
+     * @param int $depth
+     * @param int $maxDepth
+     * @param string[] $parents Stringified classes on upper layers.
+     * @return bool
+     */
+    protected function canGoDeeper($currentClass, $depth, $maxDepth, $parents)
+    {
+        // Go inside the array, not the objects (render only "top" object)
+        return empty($parents);
     }
 
     /**
@@ -146,51 +220,6 @@ class MessageBuilder
         }
 
         return $result;
-    }
-
-    /**
-     * Build object string with all its constants, properties and methods.
-     *
-     * @param mixed $object
-     * @param int $depth
-     * @param int $maxDepth
-     * @return string
-     */
-    protected function buildObjectString($object, $depth, $maxDepth)
-    {
-        $reflection = $this->reflector->reflectObject($object);
-
-        if ($depth <= ($maxDepth - 2)) {
-            // If we have 2+ more levels, then stringify the values of the
-            // constants and properties properly
-            $this->preprocessObjectChildren($reflection['constants'], $depth, $maxDepth);
-            $this->preprocessObjectChildren($reflection['properties'], $depth, $maxDepth);
-        }
-
-        return $this->stringifier->stringifyRefobject($reflection);
-    }
-
-    /**
-     * Convert nested arrays/iterable objects/objects.
-     *
-     * @param array $children
-     * @param int $depth
-     * @param int $maxDepth
-     */
-    protected function preprocessObjectChildren(&$children, $depth, $maxDepth)
-    {
-        foreach ($children as &$child) {
-            $type = typeof($child['value']);
-
-            if (in_array($type, ['array', 'iterable', 'object'])) {
-                $stringValue = $this->buildString($child['value'], $type, $depth + 1, $maxDepth);
-                $stringValue = $this->increaseIndent($stringValue);
-
-                $child['value'] = new AsIs($stringValue);
-            }
-        }
-
-        unset($child);
     }
 
     /**

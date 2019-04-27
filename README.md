@@ -29,7 +29,7 @@ $ todebugs('Offset:', 3);
 > "Offset:" 3
 ```
 
-3. **todebugx($var, string $type)** - put the value into the log, indicating it's value manually.
+3. **todebugx($var, string $type, $maxDepth = "auto")** - put the value into the log, indicating it's value manually.
 ```php
 $ todebug('count');
 > count
@@ -40,6 +40,8 @@ $ todebugs('count');
 $ todebugx('count', 'function');
 > function count($array_or_countable[, $mode]) { ... }
 ```
+
+4. **todebugu($var, $maxDepth = "auto")** - build message, allowing to convert the maximum amount of nested objects.
 
 ## Control Functions
 * todebug\clear()  - clear all log messages in admin bar (does not clear the file).

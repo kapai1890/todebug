@@ -4,12 +4,11 @@ namespace todebug;
 
 use WordPress\Settings\SettingsRegistry;
 use tostr\AsIs;
-use tostr\MessageBuilder;
 use tostr\Reflector;
 
 class Plugin
 {
-    /** @var \tostr\MessageBuilder */
+    /** @var \todebug\MessageBuilder */
     protected $messageBuilder;
 
     /** @var \todebug\User */
@@ -110,16 +109,35 @@ class Plugin
     /**
      * @param mixed[] $vars
      * @param string $type
-     * @param int $maxDepth Optional. -1 by default (use value from settings).
+     * @param int $maxDepth Optional. "auto" by default (use value from settings).
      * @return string The result of conversion.
      */
-    public function logAs($var, $type, $maxDepth = -1)
+    public function logAs($var, $type, $maxDepth = 'auto')
     {
-        if ($maxDepth < 1) {
+        if ($maxDepth === 'auto') {
             $maxDepth = $this->settings->getMaxDepth();
         }
 
         $message = $this->messageBuilder->buildAs($var, $type, $maxDepth);
+        $message .= PHP_EOL;
+
+        $this->saveMessage($message);
+
+        return $message;
+    }
+
+    /**
+     * @param mixed $var Any object.
+     * @param int $maxDepth Optional. "auto" by default (use value from settings).
+     * @return string The result of conversion.
+     */
+    public function logObjectsHierarchy($var, $maxDepth = 'auto')
+    {
+        if ($maxDepth === 'auto') {
+            $maxDepth = $this->settings->getMaxDepth();
+        }
+
+        $message = $this->messageBuilder->buildObjectsHierarchy($var, $maxDepth);
         $message .= PHP_EOL;
 
         $this->saveMessage($message);

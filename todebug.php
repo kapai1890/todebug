@@ -26,6 +26,7 @@ if (!class_exists('\todebug\Plugin')) {
     require_once __DIR__ . '/includes/public-functions.php';
 
     require_once __DIR__ . '/classes/Stringifier.php';
+    require_once __DIR__ . '/classes/MessageBuilder.php';
     require_once __DIR__ . '/classes/User.php';
     require_once __DIR__ . '/classes/Settings.php';
     require_once __DIR__ . '/classes/AssetsLoader.php';
