@@ -29,9 +29,17 @@ class LogsPrinter
     /**
      * @param string $message
      */
-    public function pushMessage($message)
+    public function addMessage($message)
     {
         $this->loggedMessages[] = $message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function pushMessage($message)
+    {
+        array_unshift($this->loggedMessages, $message);
     }
 
     public function clear()

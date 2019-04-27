@@ -50,12 +50,24 @@ class Plugin
     protected function addActions()
     {
         add_action('init', [$this, 'loadTranslations']);
+        add_action('init', [$this, 'checkOutputFile']);
     }
 
     public function loadTranslations()
     {
         $pluginDir = plugin_basename(PLUGIN_DIR); // "todebug" or renamed folder
         load_plugin_textdomain('todebug', false, $pluginDir . '/languages');
+    }
+
+    public function checkOutputFile()
+    {
+        $outputFile = $this->settings->getOutputFile();
+
+        if (!is_writable($outputFile)) {
+            // Notice: push-method will change the order of messages
+            $this->logsPrinter->pushMessage(PHP_EOL); // <hr />
+            $this->logsPrinter->pushMessage(sprintf(esc_html__('Warning: the output file "%s" is not writable.', 'todebug'), $outputFile));
+        }
     }
 
     /**
@@ -120,7 +132,7 @@ class Plugin
      */
     protected function saveMessage($message)
     {
-        $this->logsPrinter->pushMessage($message);
+        $this->logsPrinter->addMessage($message);
 
         if (wp_doing_ajax()) {
             if ($this->settings->isLoggingOnAjaxEnabled()) {
@@ -143,7 +155,7 @@ class Plugin
     protected function writeMessage($message)
     {
         // Message type 3 - append text tot the specified file
-        error_log($message, 3, $this->settings->getOutputFile());
+        @error_log($message, 3, $this->settings->getOutputFile());
     }
 
     public function clearLogs()
