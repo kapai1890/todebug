@@ -45,7 +45,7 @@ function todebugx($var, $type, $maxDepth = 'auto')
 }
 
 /**
- * Build message, allowing to convert the maximum amount of nested objects.
+ * Build the message, also converting all nested objects.
  *
  * @param mixed $var Any object.
  * @param int $maxDepth Optional. "auto" by default (use value from settings).
