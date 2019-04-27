@@ -41,13 +41,9 @@ class LogsPrinter
 
     public function displayLogs()
     {
-        // Don't print execution logs for every user
-        if (!$this->user->canSeeLogs()) {
-            return;
-        }
-
-        // Don't display logs on AJAX and cron requests
-        if (wp_doing_ajax() || wp_doing_cron()) {
+        // It's simpler to check if the admin bar was added, than checking for
+        // AJAX, crons, feeds etc.
+        if (!apply_filters('todebug/admin-bar/added', false)) {
             return;
         }
 

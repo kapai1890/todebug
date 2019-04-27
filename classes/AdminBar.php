@@ -41,5 +41,8 @@ class AdminBar
                 'title' => esc_html__('Display execution logs', 'todebug')
             ]
         ]);
+
+        // Notify that admin bar is "ready to accept logs"
+        add_filter('todebug/admin-bar/added', '__return_true');
     }
 }
