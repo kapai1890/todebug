@@ -167,7 +167,7 @@ class Plugin
     {
         return [
             'todebug' => [
-                0 => __('Todebug', 'todebug'),
+                0 => esc_html__('Todebug', 'todebug'),
                 'todebug_enabled_requests' => [
                     'type'        => 'string',
                     'default'     => '',
