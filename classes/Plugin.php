@@ -154,15 +154,15 @@ class Plugin
 
         if (wp_doing_ajax()) {
             if ($this->settings->isLoggingOnAjaxEnabled()) {
-                $this->writeMessage($message);
+                $this->writeMessage($message, false);
             }
         } else if (wp_doing_cron()) {
             if ($this->settings->isLoggingOnCronEnabled()) {
-                $this->writeMessage($message);
+                $this->writeMessage($message, false);
             }
         } else {
             if ($this->settings->isLoggingInGeneralEnabled()) {
-                $this->writeMessage($message);
+                $this->writeMessage($message, true);
             }
         }
     }
@@ -170,10 +170,14 @@ class Plugin
     /**
      * @param string $message
      */
-    protected function writeMessage($message)
+    protected function writeMessage($message, $suppressErrors)
     {
         // Message type 3 - append text tot the specified file
-        @error_log($message, 3, $this->settings->getOutputFile());
+        if ($suppressErrors) {
+            @error_log($message, 3, $this->settings->getOutputFile());
+        } else {
+            error_log($message, 3, $this->settings->getOutputFile());
+        }
     }
 
     public function clearLogs()
