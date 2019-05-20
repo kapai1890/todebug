@@ -6,13 +6,13 @@ jQuery(document).ready(function () {
     // Show/hide logs
     jQuery('#wp-admin-bar-todebug a').on('click', function (event) {
         event.preventDefault();
-        $logsWrapper.toggle();
-        jQuery(this).blur();
+        toggleLogs();
+        jQuery(this).blur(); // Remove current focus
     });
 
     // Close logs by clicking on the background
     $logsWrapper.on('click', function (event) {
-        $logsWrapper.toggle();
+        toggleLogs();
     });
 
     // Disable event propagation on .inner-wrapper to allow highlighting and
@@ -20,4 +20,10 @@ jQuery(document).ready(function () {
     $logsWrapper.children('.inner-wrapper').on('click', function (event) {
         event.stopPropagation();
     });
+
+    function toggleLogs()
+    {
+        $logsWrapper.toggle();
+        jQuery(document.body).toggleClass('todebug-noscroll');
+    }
 });

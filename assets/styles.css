@@ -35,3 +35,6 @@
 #todebug-logs hr {
     margin: 1.75em 0;
 }
+.todebug-noscroll {
+    overflow: hidden !important;
+}
