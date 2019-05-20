@@ -41,13 +41,13 @@ $ todebugx('count', 'function');
 > function count($array_or_countable[, $mode]) { ... }
 ```
 
-4. **todebugu($var, $maxDepth** _= "auto"_**)** - build the message, also converting all nested objects (by default all nested objects (objects in objects) have output format _"{%Instance of CLASS_NAME%}"_; this function changes the default rule).
+4. **todebugu($var, $maxDepth** _= "auto"_**)** - build the message, also converting all nested objects; by default all nested objects (objects in objects) have output format _"{%Instance of CLASS_NAME%}"_, this function changes the default rule.
 
 ## Control Functions
 * todebug\clear()  - clear all log messages in admin bar (does not clear the file).
 * todebug\on()     - start writing all kinds of messages into a file.
 * todebug\off()    - stop writing any message into a file.
-* todebug\log()    - start writing general mesages into a file ("general" means not AJAX and not cron).
+* todebug\log()    - start writing general messages into a file ("general" means not AJAX and not cron).
 * todebug\nologs() - stop writing general messages into a file.
 * todebug\ajax()   - start writing AJAX messages into a file.
 * todebug\noajax() - stop writing AJAX messages into a file.
