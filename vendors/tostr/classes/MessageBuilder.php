@@ -65,8 +65,8 @@ class MessageBuilder
                 return $this->arrayToString($var, $depth, $maxDepth, $parents);
             } else if ($type == 'iterable') {
                 return $this->iterableToString($var, $depth, $maxDepth, $parents);
-            } else if ($type == 'object') {
-                return $this->objectToString($var, $depth, $maxDepth, $parents);
+            } else if ($type == 'object' || $type == 'structure') {
+                return $this->objectToString($var, $type, $depth, $maxDepth, $parents);
             }
         }
 
@@ -132,37 +132,44 @@ class MessageBuilder
      * Build object string with all its constants, properties and methods.
      *
      * @param mixed $object
+     * @param string $type
      * @param int $depth
      * @param int $maxDepth
      * @param string[] $parents Stringified classes on upper layers.
      * @return string
      */
-    protected function objectToString($object, $depth, $maxDepth, $parents)
+    protected function objectToString($object, $type, $depth, $maxDepth, $parents)
     {
         $currentClass = get_class($object);
+        $canGooDeeper = $this->canGoDeeper($currentClass, $depth, $maxDepth, $parents);
 
-        if ($this->canGoDeeper($currentClass, $depth, $maxDepth, $parents)) {
-            // Convert object to string with all it's fields and methods
-            $reflection = $this->reflector->reflectObject($object);
+        // Return "{%Instance of CLASS_NAME%}" if can't go deeper
+        if (!$canGooDeeper) {
+            return $this->stringifier->stringifyObject($object);
+        }
 
-            // Update parents before converting the children
-            $parents[] = $currentClass;
+        // Convert object to string with all it's fields and methods
+        $reflection = $this->reflector->reflectObject($object);
 
-            if ($depth <= ($maxDepth - 2)) {
-                // If we have 2+ more levels, then stringify the values of the
-                // constants and properties properly
-                $this->childrenToString($reflection['constants'], $depth, $maxDepth, $parents);
-                $this->childrenToString($reflection['properties'], $depth, $maxDepth, $parents);
-            }
+        // Update parents before converting the children
+        $parents[] = $currentClass;
 
+        // If we have 2+ more levels, then stringify the values of the constants
+        // and properties properly
+        if ($depth <= ($maxDepth - 2)) {
+            $this->childrenToString($reflection['constants'], $depth, $maxDepth, $parents);
+            $this->childrenToString($reflection['properties'], $depth, $maxDepth, $parents);
+        }
+
+        if ($type == 'object') {
             return $this->stringifier->stringifyRefobject($reflection);
         } else {
-            return $this->stringifier->stringifyAs($object, 'object');
+            return $this->stringifier->stringifyRefstruct($reflection);
         }
     }
 
     /**
-     * Convert nested arrays/iterable objects/objects.
+     * Convert nested arrays/iterables/objects.
      *
      * @param array $children
      * @param int $depth
@@ -174,7 +181,7 @@ class MessageBuilder
         foreach ($children as &$child) {
             $type = typeof($child['value']);
 
-            if (in_array($type, ['array', 'iterable', 'object'])) {
+            if (in_array($type, ['array', 'iterable', 'object', 'structure'])) {
                 $stringValue = $this->varToString($child['value'], $type, $depth + 1, $maxDepth, $parents);
                 $stringValue = $this->increaseIndent($stringValue);
 

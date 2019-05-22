@@ -80,6 +80,19 @@ class Exception implements Throwable
     public function __toString() { ... }
 }
 ```
+* **Structure** _(skip methods)_:
+```php
+class Exception implements Throwable
+{
+    protected $message = "Test exception";
+    private $string = "";
+    protected $code = 0;
+    protected $file = ".../tostr/tests/dummies/sample-types.php";
+    protected $line = 15;
+    private $trace = [["file" => ".../Test.php", "line" => 14, "function" => "require"]];
+    private $previous;
+}
+```
 
 # License
 The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).

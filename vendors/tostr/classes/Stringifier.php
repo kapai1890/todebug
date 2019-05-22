@@ -410,6 +410,22 @@ class Stringifier
     }
 
     /**
+     * Notice: the method is not intended to stringify the class. Only
+     * reflections of the objects are allowed.
+     *
+     * @param array $reflection [visibility, name, implements, constants,
+     *                          properties, methods]
+     * @return string
+     */
+    public function stringifyRefstruct(array $reflection)
+    {
+        // Remove all methods
+        $reflection['methods'] = array();
+
+        return $this->stringifyRefobject($reflection);
+    }
+
+    /**
      * @param \DateTime $date
      * @return string Date in format "j F, Y (H:i:s)": "31 December, 2017 (18:32:59)".
      */
