@@ -141,14 +141,15 @@ class MessageBuilder
     protected function objectToString($object, $type, $depth, $maxDepth, $parents)
     {
         $currentClass = get_class($object);
-        $canGooDeeper = $this->canGoDeeper($currentClass, $depth, $maxDepth, $parents);
+        $canGoDeeper = $this->canGoDeeper($currentClass, $depth, $maxDepth, $parents);
 
         // Return "{%Instance of CLASS_NAME%}" if can't go deeper
-        if (!$canGooDeeper) {
+        if (!$canGoDeeper) {
             return $this->stringifier->stringifyObject($object);
         }
 
-        // Convert object to string with all it's fields and methods
+        // Reflect the object and convert it into a string with all it's fields
+        // and methods
         $reflection = $this->reflector->reflectObject($object);
 
         // Update parents before converting the children

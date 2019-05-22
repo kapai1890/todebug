@@ -29,7 +29,7 @@ $ todebugs('Offset:', 3);
 > "Offset:" 3
 ```
 
-3. **todebugms($message, ...$vars)** - same as todebugs(), but prints the $message without quotes "".
+3. **todebugms($message, ...$vars)** - same as todebugs(), but prints the **$message** without quotes "".
 ```php
 $ todebugms('Offset:', 'three');
 > Offset: "three"
@@ -47,7 +47,7 @@ $ todebugx('count', 'function');
 > function count($array_or_countable[, $mode]) { ... }
 ```
 
-4. **todebugu($var, $maxDepth** _= "auto"_**)** - build the message, also converting all nested objects; by default all nested objects (objects in objects) have output format _"{%Instance of CLASS_NAME%}"_, this function changes the default rule.
+5. **todebugu($var, $maxDepth** _= "auto"_**)** - build the message, also converting all nested objects; by default all nested objects (objects in objects) have output format _"{%Instance of CLASS_NAME%}"_, this function changes the default rule.
 
 ## Control Functions
 * todebug\clear()  - clear all log messages in admin bar (does not clear the file).
