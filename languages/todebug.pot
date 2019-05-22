@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-04-23T23:36:54+03:00\n"
+"POT-Creation-Date: 2019-05-22T23:54:36+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.1.0\n"
 "X-Domain: todebug\n"
 
 #. Plugin Name of the plugin
 #: classes/AdminBar.php:38
-#: classes/Plugin.php:153
+#: classes/Plugin.php:192
 msgid "Todebug"
 msgstr ""
 
@@ -40,43 +40,47 @@ msgstr ""
 msgid "Display execution logs"
 msgstr ""
 
-#: classes/Plugin.php:157
+#: classes/Plugin.php:68
+msgid "Warning: the output file \"%s\" is not writable."
+msgstr ""
+
+#: classes/Plugin.php:196
 msgid "Enabled Requests"
 msgstr ""
 
-#: classes/Plugin.php:159
+#: classes/Plugin.php:199
 msgid "Log general requests"
 msgstr ""
 
-#: classes/Plugin.php:165
+#: classes/Plugin.php:200
 msgid "Log AJAX requests"
 msgstr ""
 
-#: classes/Plugin.php:171
+#: classes/Plugin.php:201
 msgid "Log cron requests"
 msgstr ""
 
-#: classes/Plugin.php:176
+#: classes/Plugin.php:207
 msgid "Preferred Output"
 msgstr ""
 
-#: classes/Plugin.php:179
+#: classes/Plugin.php:210
 msgid "WordPress' <code>debug.log</code> file"
 msgstr ""
 
-#: classes/Plugin.php:180
+#: classes/Plugin.php:211
 msgid "Custom log file of the plugin"
 msgstr ""
 
-#: classes/Plugin.php:186
-msgid "Custom Log"
+#: classes/Plugin.php:217
+msgid "Custom File"
 msgstr ""
 
-#: classes/Plugin.php:194
+#: classes/Plugin.php:225
 msgid "Max Depth"
 msgstr ""
 
-#: classes/LogsPrinter.php:62
+#: classes/LogsPrinter.php:71
 msgid "No logs in the current execution."
 msgstr ""
 

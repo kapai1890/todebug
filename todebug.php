@@ -9,6 +9,7 @@
  * Author URI: https://github.com/biliavskyi.yevhen
  * License: MIT
  * Text Domain: todebug
+ * Domain Path: /languages
  */
 
 if (!defined('ABSPATH')) {
