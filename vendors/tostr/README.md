@@ -83,7 +83,7 @@ class Exception implements Throwable
     public function __toString() { ... }
 }
 ```
-* **Structure** _(skip methods)_:
+* **Structure** _(skips methods)_:
 ```php
 class Exception implements Throwable
 {
