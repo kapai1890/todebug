@@ -29,7 +29,13 @@ $ todebugs('Offset:', 3);
 > "Offset:" 3
 ```
 
-3. **todebugx($var,** string **$type, $maxDepth** _= "auto"_**)** - put the value into the log, indicating it's value manually.
+3. **todebugms($message, ...$vars)** - same as todebugs(), but prints the $message without quotes "".
+```php
+$ todebugms('Offset:', 'three');
+> Offset: "three"
+```
+
+4. **todebugx($var,** string **$type, $maxDepth** _= "auto"_**)** - put the value into the log, indicating it's value manually.
 ```php
 $ todebug('count');
 > count

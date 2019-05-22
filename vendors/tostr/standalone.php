@@ -56,6 +56,23 @@ if (!function_exists('tostrs')) {
     }
 }
 
+if (!function_exists('tostrms')) {
+    /**
+     * @param string $message The message to print not strictly.
+     * @param mixed[] $vars
+     * @return string
+     *
+     * @global \tostr\MessageBuilder $tostr
+     */
+    function tostrms($message, ...$vars)
+    {
+        global $tostr;
+
+        $vars = array_merge([\tostr\asis($message)], $vars);
+        return $tostr->buildMessage($vars, 5);
+    }
+}
+
 if (!function_exists('tostrx')) {
     /**
      * @param mixed $var
@@ -69,5 +86,16 @@ if (!function_exists('tostrx')) {
     {
         global $tostr;
         return $tostr->buildAs($var, $type, $maxDepth) . PHP_EOL;
+    }
+}
+
+if (!function_exists('asis')) {
+    /**
+     * @param mixed $var
+     * @return \tostr\AsIs
+     */
+    function asis($var)
+    {
+        return \tostr\asis($var);
     }
 }

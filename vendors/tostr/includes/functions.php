@@ -3,6 +3,15 @@
 namespace tostr;
 
 /**
+ * @param mixed $var
+ * @return \tostr\AsIs
+ */
+function asis($var)
+{
+    return new AsIs($var);
+}
+
+/**
  * @param array $array
  * @return bool
  */

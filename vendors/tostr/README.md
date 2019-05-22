@@ -11,7 +11,6 @@ Convert any value to string with this tool.
 # Functions
 When loaded using `standalone.php`, the module will add 3 functions:
 1. **tostr(...$vars)** - converts all passed values into single string message (with newline character in the end). All root strings will be printed without quotes "".
-
 ```php
 $ tostr('Offset:', 3);
 > Offset: 3
@@ -21,14 +20,18 @@ $ tostr(['offset' => 3]);
 ```
 
 2. **tostrs(...$vars)** - same as previous, but always prints all strings with quotes "".
-
 ```php
-$ tostr('Offset:', 3);
+$ tostrs('Offset:', 3);
 > "Offset:" 3
 ```
 
-3. **tostrx($var, $type[, $maxDepth = 5])** - converts the passed value indicating it's type manually.
+3. **tostrms($message, ...$vars)** - same as tostrs(), but prints the $message without quotes "".
+```php
+$ tostrms('Offset:', 'three');
+> Offset: "three"
+```
 
+4. **tostrx($var, $type[, $maxDepth = 5])** - converts the passed value indicating it's type manually.
 ```php
 $ tostr('count');
 > count

@@ -29,6 +29,21 @@ function todebugs(...$vars)
 }
 
 /**
+ * @param string $message The message to print not strictly.
+ * @param mixed[] $vars
+ * @return string
+ *
+ * @global \todebug\Plugin $todebug
+ */
+function todebugms($message, ...$vars)
+{
+    global $todebug;
+
+    $vars = array_merge([\tostr\asis($message)], $vars);
+    return $todebug->logStrict($vars);
+}
+
+/**
  * Convert value to string indicating it's type manually.
  *
  * @param mixed $var
