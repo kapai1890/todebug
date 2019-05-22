@@ -1,4 +1,4 @@
-# ToStr \[P\]
+# ToStr
 Convert any value to string with this tool.
 
 # Requirements

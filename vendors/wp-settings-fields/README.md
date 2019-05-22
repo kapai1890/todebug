@@ -1,4 +1,4 @@
-# WordPress Settings Fields \[P\]
+# WordPress Settings Fields
 Workaround for functions add_settings_*(), register_setting().
 
 # Requirements
