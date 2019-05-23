@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-05-22T23:54:36+03:00\n"
+"POT-Creation-Date: 2019-05-24T00:00:28+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.1.0\n"
 "X-Domain: todebug\n"
 
 #. Plugin Name of the plugin
 #: classes/AdminBar.php:38
-#: classes/Plugin.php:192
+#: classes/Settings.php:112
 msgid "Todebug"
 msgstr ""
 
@@ -44,42 +44,6 @@ msgstr ""
 msgid "Warning: the output file \"%s\" is not writable."
 msgstr ""
 
-#: classes/Plugin.php:196
-msgid "Enabled Requests"
-msgstr ""
-
-#: classes/Plugin.php:199
-msgid "Log general requests"
-msgstr ""
-
-#: classes/Plugin.php:200
-msgid "Log AJAX requests"
-msgstr ""
-
-#: classes/Plugin.php:201
-msgid "Log cron requests"
-msgstr ""
-
-#: classes/Plugin.php:207
-msgid "Preferred Output"
-msgstr ""
-
-#: classes/Plugin.php:210
-msgid "WordPress' <code>debug.log</code> file"
-msgstr ""
-
-#: classes/Plugin.php:211
-msgid "Custom log file of the plugin"
-msgstr ""
-
-#: classes/Plugin.php:217
-msgid "Custom File"
-msgstr ""
-
-#: classes/Plugin.php:225
-msgid "Max Depth"
-msgstr ""
-
 #: classes/LogsPrinter.php:71
 msgid "No logs in the current execution."
 msgstr ""
@@ -100,3 +64,39 @@ msgstr[0] ""
 msgid "Iterable with %d item"
 msgid_plural "Iterable with %d items"
 msgstr[0] ""
+
+#: classes/Settings.php:116
+msgid "Enabled Requests"
+msgstr ""
+
+#: classes/Settings.php:119
+msgid "Log general requests"
+msgstr ""
+
+#: classes/Settings.php:120
+msgid "Log AJAX requests"
+msgstr ""
+
+#: classes/Settings.php:121
+msgid "Log cron requests"
+msgstr ""
+
+#: classes/Settings.php:127
+msgid "Preferred Output"
+msgstr ""
+
+#: classes/Settings.php:130
+msgid "WordPress' <code>debug.log</code> file"
+msgstr ""
+
+#: classes/Settings.php:131
+msgid "Custom log file of the plugin"
+msgstr ""
+
+#: classes/Settings.php:137
+msgid "Custom File"
+msgstr ""
+
+#: classes/Settings.php:145
+msgid "Max Depth"
+msgstr ""

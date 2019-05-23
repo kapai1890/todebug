@@ -38,7 +38,7 @@ class Plugin
         $this->messageBuilder  = $msgBuilder;
         $this->user            = new User();
         $this->settings        = new Settings();
-        $this->settingsSection = SettingsRegistry::registerSettings('writing', $this->pluginSettings());
+        $this->settingsSection = SettingsRegistry::registerSettings('writing', $this->settings->getPluginSettings());
         $this->assetsLoader    = new AssetsLoader($this->user);
         $this->adminBar        = new AdminBar($this->user);
         $this->logsPrinter     = new LogsPrinter($this->user);
@@ -183,51 +183,5 @@ class Plugin
     public function clearLogs()
     {
         $this->logsPrinter->clear();
-    }
-
-    protected function pluginSettings()
-    {
-        return [
-            'todebug' => [
-                0 => esc_html__('Todebug', 'todebug'),
-                'todebug_enabled_requests' => [
-                    'type'        => 'string',
-                    'default'     => '',
-                    'title'       => esc_html__('Enabled Requests', 'todebug'),
-                    'input_type'  => 'multicheck',
-                    'values'      => [
-                        'general'   => esc_html__('Log general requests', 'todebug'),
-                        'ajax'      => esc_html__('Log AJAX requests', 'todebug'),
-                        'cron'      => esc_html__('Log cron requests', 'todebug')
-                    ]
-                ],
-                'todebug_preferred_output' => [
-                    'type'        => 'string',
-                    'default'     => 'wp-debug',
-                    'title'       => esc_html__('Preferred Output', 'todebug'),
-                    'input_type'  => 'radio',
-                    'options'     => [
-                        'wp-debug'  => wp_kses(__("WordPress' <code>debug.log</code> file", 'todebug'), ['code' => []]),
-                        'todebug'   => esc_html__('Custom log file of the plugin', 'todebug')
-                    ]
-                ],
-                'todebug_custom_file' => [
-                    'type'        => 'string',
-                    'default'     => '',
-                    'title'       => esc_html__('Custom File', 'todebug'),
-                    'input_type'  => 'text',
-                    'placeholder' => $this->settings->getDefaultFile(),
-                    'size'        => 'large'
-                ],
-                'todebug_max_depth' => [
-                    'type'        => 'integer',
-                    'default'     => $this->settings->getDefaultDepth(),
-                    'title'       => esc_html__('Max Depth', 'todebug'),
-                    'input_type'  => 'number',
-                    'min'         => 1,
-                    'step'        => 1
-                ]
-            ]
-        ];
     }
 }

@@ -104,4 +104,50 @@ class Settings
     {
         return 5;
     }
+
+    public function getPluginSettings()
+    {
+        return [
+            'todebug' => [
+                0 => esc_html__('Todebug', 'todebug'),
+                'todebug_enabled_requests' => [
+                    'type'        => 'string',
+                    'default'     => '',
+                    'title'       => esc_html__('Enabled Requests', 'todebug'),
+                    'input_type'  => 'multicheck',
+                    'values'      => [
+                        'general'   => esc_html__('Log general requests', 'todebug'),
+                        'ajax'      => esc_html__('Log AJAX requests', 'todebug'),
+                        'cron'      => esc_html__('Log cron requests', 'todebug')
+                    ]
+                ],
+                'todebug_preferred_output' => [
+                    'type'        => 'string',
+                    'default'     => 'wp-debug',
+                    'title'       => esc_html__('Preferred Output', 'todebug'),
+                    'input_type'  => 'radio',
+                    'options'     => [
+                        'wp-debug'  => wp_kses(__("WordPress' <code>debug.log</code> file", 'todebug'), ['code' => []]),
+                        'todebug'   => esc_html__('Custom log file of the plugin', 'todebug')
+                    ]
+                ],
+                'todebug_custom_file' => [
+                    'type'        => 'string',
+                    'default'     => '',
+                    'title'       => esc_html__('Custom File', 'todebug'),
+                    'input_type'  => 'text',
+                    'placeholder' => $this->getDefaultFile(),
+                    'size'        => 'large'
+                ],
+                'todebug_max_depth' => [
+                    'type'        => 'integer',
+                    'default'     => $this->getDefaultDepth(),
+                    'title'       => esc_html__('Max Depth', 'todebug'),
+                    'input_type'  => 'number',
+                    'min'         => 1,
+                    'step'        => 1
+                ]
+            ]
+        ];
+    }
 }
