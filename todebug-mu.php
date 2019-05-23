@@ -2,11 +2,11 @@
 
 /*
  * Plugin Name: Todebug
- * Plugin URI: https://github.com/kapai1890/todebug
+ * Plugin URI: https://github.com/biliavskyi.yevhen/todebug
  * Description: Debug logger with over 0 million downloads.
- * Version: 1.6.39
+ * Version: 2.0
  * Author: Biliavskyi Yevhen
- * Author URI: https://github.com/kapai1890
+ * Author URI: https://github.com/biliavskyi.yevhen
  * License: MIT
  * Text Domain: todebug
  */
@@ -17,4 +17,11 @@
  * folder wp-content/mu-plugins/).
  */
 
-require_once 'todebug/todebug.php';
+// WordPress may recognize todebug-mu.php as a main plugin file (maybe it's
+// first in the list with proper headers). So we need to load the plugin
+// properly when it located in plugins/ folder instead of mu-plugins/ folder
+if (file_exists(__DIR__ . '/todebug.php')) {
+    require_once __DIR__ . '/todebug.php';
+} else {
+    require_once __DIR__ . '/todebug/todebug.php';
+}

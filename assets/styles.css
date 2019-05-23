@@ -1,6 +1,8 @@
-#todebug-execution-logs {
+#todebug-logs {
     position: fixed;
-    z-index: 65600; /* Is it enough for WordPress? .mce-notification-error has z-index 65534 */
+    /* #wpadminbar has z-index 99999 */
+    /* .mce-notification-error has z-index 65534 */
+    z-index: 99998;
     top: 32px;
     bottom: 0;
     left: 0;
@@ -9,27 +11,30 @@
     padding: 0;
     overflow-x: hidden;
     overflow-y: visible;
-    background-color: #23282D;
-    background-color: rgba(35, 40, 45, 0.75); /* #23282D */
+    background-color: #23282d;
+    background-color: rgba(35, 40, 45, 0.75); /* #23282d */
 }
-#todebug-execution-logs .inner-wrapper {
+#todebug-logs .inner-wrapper {
     width: 100%;
     margin: 0;
     padding: 1em;
     background-color: #f1f1f1;
 }
-#todebug-execution-logs p,
-#todebug-execution-logs pre {
+#todebug-logs p,
+#todebug-logs pre {
     border: none;
     margin: 0;
     padding: 0;
     font-size: 14px;
     line-height: 1.4em;
 }
-#todebug-execution-logs pre {
+#todebug-logs pre {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-#todebug-execution-logs hr {
+#todebug-logs hr {
     margin: 1.75em 0;
+}
+.todebug-noscroll {
+    overflow: hidden !important;
 }
