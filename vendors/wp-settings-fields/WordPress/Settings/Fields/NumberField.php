@@ -38,7 +38,7 @@ class NumberField extends SettingsField
         if (!empty($label)) {
             // The label must be properly escaped __before__ passing to the
             // instance of the settings field
-            echo $label;
+            echo ' ', $label;
         }
     }
 
@@ -47,7 +47,7 @@ class NumberField extends SettingsField
         $value = parent::sanitizeValue($value);
 
         if ($value === '') {
-            $value = $this->getDefaultValue();
+            return $value;
         }
 
         if ($this->type == 'number' || $this->type == 'integer') {

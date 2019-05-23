@@ -7,8 +7,7 @@ abstract class MultivalueField extends SettingsField
     protected function getDefaultArgs()
     {
         return array_merge(parent::getDefaultArgs(), [
-            'values'    => [], // [value => label]
-            'separator' => ',' // Values separator in wp_options
+            'values' => [] // [value => label]
         ]);
     }
 
@@ -18,13 +17,15 @@ abstract class MultivalueField extends SettingsField
      */
     public function sanitizeValue($value)
     {
+        $value = maybe_unserialize($value);
         $availableValues = array_keys($this->args['values']);
 
         if (is_array($value)) {
-            $values = array_map([parent, 'sanitizeValue'], $value);
+            // Fixed: "Notice:  use of undefined constant parent" (in callback)
+            $values = array_map(function ($value) { return parent::sanitizeValue($value); }, $value);
             // parent::sanitizeValue() can return ununique values; filter them
             $values = array_unique($values);
-            // Filter empty values ("")
+            // Filter empty values ("" = empty value or sanitization error)
             $values = array_filter($values, function ($value) { return $value !== ''; });
             $values = array_intersect($values, $availableValues);
 
@@ -38,7 +39,7 @@ abstract class MultivalueField extends SettingsField
             }
         }
 
-        return implode($this->args['separator'], $values);
+        return $values;
     }
 
     public function getValue()
@@ -46,7 +47,7 @@ abstract class MultivalueField extends SettingsField
         $value = get_option($this->name, null);
 
         if (!is_null($value) && $value !== '') {
-            $values = explode($this->args['separator'], $value);
+            $values = maybe_unserialize($value);
         } else {
             $values = $this->getDefaultValue();
         }

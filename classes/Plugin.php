@@ -221,7 +221,7 @@ class Plugin
                 ],
                 'todebug_max_depth' => [
                     'type'        => 'integer',
-                    'default'     => 5,
+                    'default'     => $this->settings->getDefaultDepth(),
                     'title'       => esc_html__('Max Depth', 'todebug'),
                     'input_type'  => 'number',
                     'min'         => 1,

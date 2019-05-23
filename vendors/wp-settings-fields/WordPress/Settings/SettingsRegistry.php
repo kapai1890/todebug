@@ -5,13 +5,13 @@ namespace WordPress\Settings;
 class SettingsRegistry
 {
     /**
-     * @param string $page
+     * @param string $page general|writing|reading|discussion|media|permalink
      * @param array $settigns
      * @return \WordPress\Settings\SettingsSection[] All registered sections.
      */
     public static function registerSettings($page, $settigns)
     {
-        $sections = array();
+        $sections = [];
 
         foreach ($settigns as $sectionName => $fields) {
 
@@ -26,12 +26,12 @@ class SettingsRegistry
                 // boolean|number|integer|string
                 $dataType = isset($args['type']) ? $args['type'] : 'string';
 
-                // text|number|checkbox|select|radio
+                // text|number|checkbox|select|radio|multicheck
                 $inputType = 'text';
 
                 if (isset($args['input_type'])) {
-                    $allowedInputTypes = array('text', 'number', 'checkbox', 'select', 'radio', 'multicheck');
-                    $allowedInputTypes = apply_filters('settings_fields_input_types', $allowedInputTypes);
+                    $allowedInputTypes = ['text', 'number', 'checkbox', 'select', 'radio', 'multicheck'];
+                    $allowedInputTypes = apply_filters('wp-settings-fields/allowed-input-types', $allowedInputTypes);
 
                     if (in_array($args['input_type'], $allowedInputTypes)) {
                         $inputType = $args['input_type'];

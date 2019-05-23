@@ -16,12 +16,13 @@ if (!class_exists('WordPress\Settings\SettingsField')) {
     require __DIR__ . '/WordPress/Settings/SettingsSection.php';
     require __DIR__ . '/WordPress/Settings/SettingsRegistry.php';
 
-    require __DIR__ . '/WordPress/Settings/TextField.php';
-    require __DIR__ . '/WordPress/Settings/NumberField.php';
-    require __DIR__ . '/WordPress/Settings/CheckboxField.php';
     require __DIR__ . '/WordPress/Settings/MultioptionField.php';
-    require __DIR__ . '/WordPress/Settings/SelectField.php';
-    require __DIR__ . '/WordPress/Settings/RadioField.php';
     require __DIR__ . '/WordPress/Settings/MultivalueField.php';
-    require __DIR__ . '/WordPress/Settings/MulticheckField.php';
+
+    require __DIR__ . '/WordPress/Settings/Fields/TextField.php';
+    require __DIR__ . '/WordPress/Settings/Fields/NumberField.php';
+    require __DIR__ . '/WordPress/Settings/Fields/CheckboxField.php';
+    require __DIR__ . '/WordPress/Settings/Fields/SelectField.php';
+    require __DIR__ . '/WordPress/Settings/Fields/RadioField.php';
+    require __DIR__ . '/WordPress/Settings/Fields/MulticheckField.php';
 }

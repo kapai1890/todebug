@@ -4,11 +4,20 @@ namespace todebug;
 
 class Settings
 {
+    protected function isRequestsEnabled($type)
+    {
+        $enabledRequests = get_option('todebug_enabled_requests', array());
+
+        if (empty($enabledRequests)) {
+            return false;
+        } else {
+            return in_array($type, $enabledRequests);
+        }
+    }
+
     public function isLoggingInGeneralEnabled()
     {
-        $enableGeneral = get_option('todebug_general_logs_enabled', '');
-
-        $isEnabled = !empty($enableGeneral);
+        $isEnabled = $this->isRequestsEnabled('general');
         $isEnabled = apply_filters('todebug/enable-channel/general', $isEnabled);
 
         return $isEnabled;
@@ -16,9 +25,7 @@ class Settings
 
     public function isLoggingOnAjaxEnabled()
     {
-        $enableAjax = get_option('todebug_ajax_logs_enabled', '');
-
-        $isEnabled = !empty($enableAjax);
+        $isEnabled = $this->isRequestsEnabled('ajax');
         $isEnabled = apply_filters('todebug/enable-channel/ajax', $isEnabled);
 
         return $isEnabled;
@@ -26,9 +33,7 @@ class Settings
 
     public function isLoggingOnCronEnabled()
     {
-        $enableCron = get_option('todebug_cron_logs_enabled', '');
-
-        $isEnabled = !empty($enableCron);
+        $isEnabled = $this->isRequestsEnabled('cron');
         $isEnabled = apply_filters('todebug/enable-channel/cron', $isEnabled);
 
         return $isEnabled;
@@ -84,6 +89,19 @@ class Settings
 
     public function getMaxDepth()
     {
-        return get_option('todebug_max_depth', 5);
+        $defaultDepth = $this->getDefaultDepth();
+
+        $depth = get_option('todebug_max_depth', $defaultDepth);
+
+        if ($depth !== '') {
+            return (int)$depth;
+        } else {
+            return $defaultDepth;
+        }
+    }
+
+    public function getDefaultDepth()
+    {
+        return 5;
     }
 }

@@ -117,7 +117,8 @@ abstract class SettingsField
             case 'number':
                 $value = filter_var($value, FILTER_VALIDATE_FLOAT);
                 if ($value === false) {
-                    $value = '';
+                    $value = ''; // MultivalueField will filter all empty strings (we must
+                                 // distinguish the sanitization error from the default value)
                 }
                 break;
 

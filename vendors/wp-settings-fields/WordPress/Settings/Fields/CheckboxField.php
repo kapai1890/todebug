@@ -13,11 +13,12 @@ class CheckboxField extends SettingsField
 
     protected function displayInput()
     {
-        $class = $this->args['class'];
-        $label = $this->args['label'];
+        $class   = $this->args['class'];
+        $label   = $this->args['label'];
+        $checked = (bool)$this->getValue();
 
         echo '<label>';
-            echo '<input type="checkbox" name="', esc_attr($this->name), '" id="', esc_attr($this->name), '" class="', esc_attr($class), '" value="', esc_attr($this->getValue()), '" />';
+            echo '<input type="checkbox" name="', esc_attr($this->name), '" id="', esc_attr($this->name), '" class="', esc_attr($class), '" value="1"', checked(true, $checked, false), ' />';
             // The label must be properly escaped __before__ passing to the
             // instance of the settings field
             echo ' ', $label;

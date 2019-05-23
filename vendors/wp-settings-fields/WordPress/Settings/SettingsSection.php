@@ -11,7 +11,7 @@ class SettingsSection
     protected $topRenderer     = null;
     /** @var callable */
     protected $defaultRenderer = null;
-    /** @var SettingsField[] */
+    /** @var \WordPress\Settings\SettingsField[] */
     protected $fields          = [];
 
     /**
@@ -33,7 +33,7 @@ class SettingsSection
      */
     public function addField(SettingsField $field)
     {
-        $this->fields[] = $field;
+        $this->fields[$field->getName()] = $field;
         return $this;
     }
 

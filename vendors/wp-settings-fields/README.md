@@ -13,8 +13,8 @@ SettingsRegistry::registerSettings(
     [
         'todebug' => [
             0 => __('Todebug', 'todebug'),
-            'todebug_log_file' => [
-                'title'   => __('Output File', 'todebug'),
+            'todebug_custom_file' => [
+                'title'   => __('Custom File', 'todebug'),
                 'type'    => 'string',
                 'default' => ''
             ]
@@ -46,17 +46,17 @@ class GeneralSettings
 
     public function registerFields()
     {
-        add_settings_field('todebug_log_file', __('Output File', 'todebug'),
-            [$this, 'renderLogFile'], 'general', 'todebug');
+        add_settings_field('todebug_custom_file', __('Custom File', 'todebug'),
+            [$this, 'renderCustomFile'], 'general', 'todebug');
 
-        register_setting('general', 'todebug_log_file', ['type' => 'string', 'default' => '']);
+        register_setting('general', 'todebug_custom_file', ['type' => 'string', 'default' => '']);
     }
 
-    public function renderLogFile()
+    public function renderCustomFile()
     {
-        $logFile = get_option('todebug_log_file', '');
+        $logFile = get_option('todebug_custom_file', '');
 
-        echo '<input id="todebug_log_file" name="todebug_log_file" type="text" value="' . esc_attr($logFile) . '" class="regular-text" />';
+        echo '<input id="todebug_custom_file" name="todebug_custom_file" type="text" value="' . esc_attr($logFile) . '" class="large-text" />';
     }
 }
 ```
@@ -64,7 +64,7 @@ class GeneralSettings
 # Arguments List
 ```php
 SettingsRegistry::registerSettings(
-    "%page name%", // general|writing|reading|discussion|media|permalink (not "privacy")
+    "%page name%", // general|writing|reading|discussion|media|permalink (but not "privacy")
     [
         "%section name #1%" => [
             0 => "%section title%",
@@ -82,7 +82,7 @@ SettingsRegistry::registerSettings(
 
                 // Additional arguments for SettingsField and SettingsRegistry
                 "title"             => "Title text on the left side of the page",
-                "input_type"        => "text", // text|number|checkbox|select|radio
+                "input_type"        => "text", // text|number|checkbox|select|radio|multicheck
                 "class"             => "", // CSS classes
 
                 // TextField
@@ -92,9 +92,9 @@ SettingsRegistry::registerSettings(
                 // NumberField
                 "size"              => "small", // tiny|small|regular|large|""
                 "label"             => "", // The label next after the field
-                "min"               => "", // number or ""
-                "max"               => "", // number or ""
-                "step"              => "", // number or ""
+                "min"               => "", // Number or ""
+                "max"               => "", // Number or ""
+                "step"              => "", // Number or ""
 
                 // CheckboxField
                 "label"             => "", // The label next after the field.
