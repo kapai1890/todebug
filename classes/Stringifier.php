@@ -2,7 +2,7 @@
 
 namespace todebug;
 
-class Stringifier extends \tostr\Stringifier
+class Stringifier extends \NSCL\ToStr\Stringifier
 {
     /**
      * @param string $context
@@ -25,7 +25,7 @@ class Stringifier extends \tostr\Stringifier
      * @param int $n
      * @return string
      */
-    protected function translatePlural($context, $singular, $plural, $n)
+    protected function translate_plural($context, $singular, $plural, $n)
     {
         switch ($context) {
             // translators: %d - the number of items in the array

@@ -87,24 +87,6 @@ class Settings
         return PLUGIN_DIR . 'debug.log';
     }
 
-    public function getMaxDepth()
-    {
-        $defaultDepth = $this->getDefaultDepth();
-
-        $depth = get_option('todebug_max_depth', $defaultDepth);
-
-        if ($depth !== '') {
-            return (int)$depth;
-        } else {
-            return $defaultDepth;
-        }
-    }
-
-    public function getDefaultDepth()
-    {
-        return 5;
-    }
-
     public function getPluginSettings()
     {
         return [
@@ -141,7 +123,7 @@ class Settings
                 ],
                 'todebug_max_depth' => [
                     'type'        => 'integer',
-                    'default'     => $this->getDefaultDepth(),
+                    'default'     => 5,
                     'title'       => esc_html__('Max Depth', 'todebug'),
                     'input_type'  => 'number',
                     'min'         => 1,
