@@ -1,6 +1,6 @@
 <?php
 
-namespace WordPress\Settings;
+namespace NSCL\WordPress\Settings;
 
 class SettingsSection
 {
@@ -11,7 +11,7 @@ class SettingsSection
     protected $topRenderer     = null;
     /** @var callable */
     protected $defaultRenderer = null;
-    /** @var \WordPress\Settings\SettingsField[] */
+    /** @var \NSCL\WordPress\Settings\SettingsField[] */
     protected $fields          = [];
 
     /**
@@ -28,8 +28,8 @@ class SettingsSection
     }
 
     /**
-     * @param \WordPress\Settings\SettingsField $field
-     * @return \WordPress\Settings\SettingsSection $this
+     * @param \NSCL\WordPress\Settings\SettingsField $field
+     * @return \NSCL\WordPress\Settings\SettingsSection $this
      */
     public function addField(SettingsField $field)
     {
@@ -88,7 +88,7 @@ class SettingsSection
     }
 
     /**
-     * @return \WordPress\Settings\SelectField[]
+     * @return \NSCL\WordPress\Settings\SelectField[]
      */
     public function getFields()
     {

@@ -2,22 +2,17 @@
 
 namespace todebug;
 
-use WordPress\Settings\SettingsRegistry;
-use tostr\AsIs;
-use tostr\Reflector;
+use NSCL\WordPress\Settings\SettingsRegistry;
 
 class Plugin
 {
-    /** @var \todebug\MessageBuilder */
-    protected $messageBuilder;
-
     /** @var \todebug\User */
     protected $user;
 
     /** @var \todebug\Settings */
     protected $settings;
 
-    /** @var \WordPress\Settings\SettingsSection */
+    /** @var \NSCL\WordPress\Settings\SettingsSection */
     protected $settingsSection;
 
     /** @var \todebug\AssetsLoader */
@@ -31,11 +26,8 @@ class Plugin
 
     public function __construct()
     {
-        $reflector   = new Reflector();
-        $stringifier = new Stringifier($reflector);
-        $msgBuilder  = new MessageBuilder($reflector, $stringifier);
+        $this->changeDefaultStringBuilder();
 
-        $this->messageBuilder  = $msgBuilder;
         $this->user            = new User();
         $this->settings        = new Settings();
         $this->settingsSection = SettingsRegistry::registerSettings('writing', $this->settings->getPluginSettings());
@@ -44,6 +36,14 @@ class Plugin
         $this->logsPrinter     = new LogsPrinter($this->user);
 
         $this->addActions();
+    }
+
+    protected function changeDefaultStringBuilder()
+    {
+        global $tostr;
+
+        $stringifier = new Stringifier();
+        $tostr = new StringBuilder($stringifier);
     }
 
     protected function addActions()
@@ -70,85 +70,9 @@ class Plugin
     }
 
     /**
-     * @param mixed[] $vars
-     * @return string The result of conversion.
-     */
-    public function logMessage(array $vars)
-    {
-        // Convert root strings into `messages` (output them as is, without "")
-        $vars = array_map(function ($var) {
-            if (is_string($var) && !is_numeric($var)) {
-                $trimmed = trim($var);
-
-                if (!empty($trimmed)) {
-                    // Show without ""
-                    return new AsIs($trimmed);
-                }
-            }
-
-            // Otherwise don't change the output method
-            return $var;
-        }, $vars);
-
-        // Now all values are ready
-        return $this->logStrict($vars);
-    }
-
-    /**
-     * @param mixed[] $vars
-     * @return string The result of conversion.
-     */
-    public function logStrict(array $vars)
-    {
-        $message = $this->messageBuilder->buildMessage($vars, $this->settings->getMaxDepth());
-        $this->saveMessage($message);
-
-        return $message;
-    }
-
-    /**
-     * @param mixed[] $vars
-     * @param string $type
-     * @param int $maxDepth Optional. "auto" by default (use value from settings).
-     * @return string The result of conversion.
-     */
-    public function logAs($var, $type, $maxDepth = 'auto')
-    {
-        if ($maxDepth === 'auto') {
-            $maxDepth = $this->settings->getMaxDepth();
-        }
-
-        $message = $this->messageBuilder->buildAs($var, $type, $maxDepth);
-        $message .= PHP_EOL;
-
-        $this->saveMessage($message);
-
-        return $message;
-    }
-
-    /**
-     * @param mixed $var Any object.
-     * @param int $maxDepth Optional. "auto" by default (use value from settings).
-     * @return string The result of conversion.
-     */
-    public function logObjectsHierarchy($var, $maxDepth = 'auto')
-    {
-        if ($maxDepth === 'auto') {
-            $maxDepth = $this->settings->getMaxDepth();
-        }
-
-        $message = $this->messageBuilder->buildObjectsHierarchy($var, $maxDepth);
-        $message .= PHP_EOL;
-
-        $this->saveMessage($message);
-
-        return $message;
-    }
-
-    /**
      * @param string $message
      */
-    protected function saveMessage($message)
+    public function logMessage($message)
     {
         $this->logsPrinter->addMessage($message);
 

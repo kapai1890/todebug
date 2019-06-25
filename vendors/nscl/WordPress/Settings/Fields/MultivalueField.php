@@ -1,6 +1,8 @@
 <?php
 
-namespace WordPress\Settings;
+namespace NSCL\WordPress\Settings\Fields;
+
+use NSCL\WordPress\Settings\SettingsField;
 
 abstract class MultivalueField extends SettingsField
 {

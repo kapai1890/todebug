@@ -1,13 +1,13 @@
 <?php
 
-namespace WordPress\Settings;
+namespace NSCL\WordPress\Settings;
 
 class SettingsRegistry
 {
     /**
      * @param string $page general|writing|reading|discussion|media|permalink
      * @param array $settigns
-     * @return \WordPress\Settings\SettingsSection[] All registered sections.
+     * @return \NSCL\WordPress\Settings\SettingsSection[] All registered sections.
      */
     public static function registerSettings($page, $settigns)
     {
@@ -46,7 +46,7 @@ class SettingsRegistry
 
                 $class = ucfirst($inputType) . 'Field';
                 // The namespace is also required when instantiating from variable
-                $class = __NAMESPACE__ . '\\' . $class;
+                $class = __NAMESPACE__ . '\Fields\\' . $class;
 
                 if (class_exists($class)) {
                     $fieldTitle = isset($args['title']) ? $args['title'] : '';

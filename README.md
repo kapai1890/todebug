@@ -2,8 +2,8 @@
 Debug logger with over 0 million downloads.
 
 # Requirements
-* PHP 5.6+
-* WordPress 4.9+
+* PHP 5.6
+* WordPress 4.9
 
 # Installation
 Like any other WordPress plugin.
@@ -11,7 +11,7 @@ Like any other WordPress plugin.
 To use as must-use plugin just copy `todebug-mu.php` into `mu-plugins/` directory.
 
 # Functions
-1. **todebug(...$vars)** - put the values into the log; outputs root strings without quotes "".
+1. **todebug(...$vars)** --- put the values into the log; outputs root strings without quotes `""`.
 ```php
 $ todebug('Offset:', 3);
 > Offset: 3
@@ -20,7 +20,7 @@ $ todebug(['offset' => 3]);
 > ["offset" => 3]
 ```
 
-2. **todebugs(...$vars)** - put the values into the log in strict mode; all strings will be quoted with "".
+2. **todebugs(...$vars)** --- put the values into the log in strict mode; all strings will be quoted with `""`.
 ```php
 $ todebugs('Hello world');
 > "Hello world"
@@ -29,13 +29,13 @@ $ todebugs('Offset:', 3);
 > "Offset:" 3
 ```
 
-3. **todebugms($message, ...$vars)** - same as todebugs(), but prints the **$message** without quotes "".
+3. **todebugms(** string **$message, ...$vars)** --- same as todebugs(), but prints the `$message` without quotes `""`.
 ```php
 $ todebugms('Offset:', 'three');
 > Offset: "three"
 ```
 
-4. **todebugx($var,** string **$type, $maxDepth** _= "auto"_**)** - put the value into the log, indicating it's value manually.
+4. **todebugx($var,** string **$type,** int **$maxDepth** _= -1_**)** --- put the value into the log, indicating it's type manually.
 ```php
 $ todebug('count');
 > count
@@ -47,19 +47,19 @@ $ todebugx('count', 'function');
 > function count($array_or_countable[, $mode]) { ... }
 ```
 
-5. **todebugu($var, $maxDepth** _= "auto"_**)** - build the message, also converting all nested objects; by default all nested objects (objects in objects) have output format _"{%Instance of CLASS_NAME%}"_, this function changes the default rule.
+5. **todebugu($var,** int **$maxDepth** _= -1_**, $recursiveClasses** _= []_**)** --- build the message also going into the nested objects; by default all nested objects (objects in objects) have output format _"{%Instance of CLASS_NAME%}"_, this function changes the default rule.
 
 ## Control Functions
-* todebug\clear()  - clear all log messages in admin bar (does not clear the file).
-* todebug\on()     - start writing all kinds of messages into a file.
-* todebug\off()    - stop writing any message into a file.
-* todebug\log()    - start writing general messages into a file ("general" means not AJAX and not cron).
-* todebug\nologs() - stop writing general messages into a file.
-* todebug\ajax()   - start writing AJAX messages into a file.
-* todebug\noajax() - stop writing AJAX messages into a file.
-* todebug\cron()   - start writing cron messages into a file.
-* todebug\nocron() - stop writing cron messages into a file.
-* todebug\reset()  - restore all settings.
+* todebug\clear()  --- clear all log messages in admin bar (does not clear the file).
+* todebug\on()     --- start writing all kinds of messages into a file.
+* todebug\off()    --- stop writing any message into a file.
+* todebug\log()    --- start writing general messages into a file ("general" means not AJAX and not cron).
+* todebug\nologs() --- stop writing general messages into a file.
+* todebug\ajax()   --- start writing AJAX messages into a file.
+* todebug\noajax() --- stop writing AJAX messages into a file.
+* todebug\cron()   --- start writing cron messages into a file.
+* todebug\nocron() --- stop writing cron messages into a file.
+* todebug\reset()  --- restore all settings.
 
 # Examples
 * **Boolean**: `true`, `false`.
@@ -101,7 +101,7 @@ class Exception implements Throwable
     public function __toString() { ... }
 }
 ```
-* **Structure** _(skips methods)_:
+* **Structure** _(skips methods and constants)_:
 ```php
 class Exception implements Throwable
 {
@@ -117,7 +117,3 @@ class Exception implements Throwable
 
 # License
 The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
-
-# Credits
-* **ToStr**, <https://github.com/biliavskyi.yevhen/tostr>, Copyright (c) 2019 Biliavskyi Yevhen, MIT License.
-* **WordPress Settings Fields**, <https://github.com/biliavskyi.yevhen/wp-settings-fields>, Copyright (c) 2019 Biliavskyi Yevhen, MIT License.

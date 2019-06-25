@@ -1,4 +1,4 @@
-# WordPress Settings Fields
+# WordPress Settings
 Workaround for functions add_settings_*(), register_setting().
 
 # Requirements
@@ -118,6 +118,3 @@ SettingsRegistry::registerSettings(
     ]
 );
 ```
-
-# License
-The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).

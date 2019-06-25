@@ -1,6 +1,6 @@
 <?php
 
-namespace WordPress\Settings;
+namespace NSCL\WordPress\Settings\Fields;
 
 class SelectField extends MultioptionField
 {
