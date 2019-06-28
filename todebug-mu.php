@@ -2,11 +2,11 @@
 
 /*
  * Plugin Name: Todebug
- * Plugin URI: https://github.com/b.yevhen/todebug
+ * Plugin URI: https://github.com/byevhen2/todebug
  * Description: Debug logger with over 0 million downloads.
  * Version: 2.1.5
  * Author: Biliavskyi Yevhen
- * Author URI: https://github.com/b.yevhen
+ * Author URI: https://github.com/byevhen2
  * License: MIT
  * Text Domain: todebug
  * Domain Path: /languages
