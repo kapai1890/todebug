@@ -32,7 +32,7 @@ function todebugms($message, ...$vars)
 {
     global $todebug;
 
-    $vars = array($message) + $vars;
+    $vars = array_merge([$message], $vars);
     $string = call_user_func_array('tostrms', $vars);
     $todebug->logMessage($string);
 

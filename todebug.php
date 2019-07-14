@@ -4,7 +4,7 @@
  * Plugin Name: Todebug
  * Plugin URI: https://github.com/byevhen2/todebug
  * Description: Debug logger with over 0 million downloads.
- * Version: 2.1.5
+ * Version: 2.2.7
  * Author: Biliavskyi Yevhen
  * Author URI: https://github.com/byevhen2
  * License: MIT
@@ -38,7 +38,7 @@ if (!class_exists('\todebug\Plugin')) {
     require_once __DIR__ . '/classes/LogsPrinter.php';
     require_once __DIR__ . '/classes/Plugin.php';
 
-    define('todebug\PLUGIN_VERSION', '2.1.5');
+    define('todebug\PLUGIN_VERSION', '2.2.7');
 
     define('todebug\PLUGIN_DIR', plugin_dir_path(__FILE__)); // With trailing slash
     define('todebug\PLUGIN_URL', plugin_dir_url(__FILE__));
