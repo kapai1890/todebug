@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Todebug plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Todebug 2.2.7\n"
+"Project-Id-Version: Todebug 2.3.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/todebug\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
