@@ -8,7 +8,7 @@ Debug logger with over 0 million downloads.
 # Installation
 Like any other WordPress plugin.
 
-To use as must-use plugin just copy `todebug-mu.php` into `mu-plugins/` directory.
+To use as must-use plugin just copy file `todebug-mu.php` into `mu-plugins/` directory.
 
 # Functions
 1. `todebug(...$vars)` — put the values into the log; outputs root strings without quotes `""`.
